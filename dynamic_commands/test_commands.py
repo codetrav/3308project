@@ -1,11 +1,3 @@
-'''
-Will Walker
-University of Colorado Boulder
-Creation Date:  Monday, October 28th 2019, 3:15:49 pm
-File: test_commands.py
-'''
-
-
 import obd
 import psycopg2
 import string

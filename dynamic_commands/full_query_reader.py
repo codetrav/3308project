@@ -19,9 +19,13 @@ if(car.status() == OBDStatus.NOT_CONNECTED):
 else:
     # getting table name for insertion
     user = input("Enter user id(table id in database)")
-    # fill the tuple with all the commands, chance for filtering with dictionaries
+    # get commands to disable
+    disable = input(
+    "Enter any metrics you would like to disable, (ex: \"MAF\", \"STATUS\")\n")
+    # fill the tuple with all the commands, filtering for disabled commands, can maybe do radios later
     for key, i in test_dict.items():
-        command.append((key, test_dict[key]))
+        if(key not in disable):
+            command.append((key, test_dict[key]))
     command = tuple(command)
     # same loop as before, loops through each commands and writes it to the database
     for i in range(0, len(command)):
