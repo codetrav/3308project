@@ -2,8 +2,8 @@ import obd
 import psycopg2
 import string
 from obd import OBDStatus
-# obd.logger.setLevel(obd.logging.DEBUG)
-obd.logger.removeHandler(obd.console_handler)
+obd.logger.setLevel(obd.logging.DEBUG)
+# obd.logger.removeHandler(obd.console_handler)
 # ask for userid
 #car_id = input("Plase input your userid from the website so we can upload your information to your account:")
 # make database connection
@@ -24,13 +24,32 @@ else:
     for key, i in test_dict.items():
         # print(key, test_dict[key])
         command.append((key, test_dict[key]))
-    command = tuple(command)
-    # print(command)
-    for i in range(0, len(command)):
-        temp2 = command[i]
-        res = str((car.query(temp2[1])).value)
+    # command = tuple(command)
+    # print(command[0])
+    temp2 = command[0][1][1]
+    # print(temp2)
+    for i in range(0, len(temp2)):
+        # print("Temp2 is", temp2[1][i])
+        # print("Type is", type(temp2[1][i]))
+        res = str((car.query(temp2[i])).value)
         # print('Passed query')
-        description = temp2[0]
+        description = str(temp2[i])
+        # print(type(description))
+        # print("Final command is")
         # print(description, res)
-        cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+        if(res != 'None'):
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+    temp2 = command[0][1][6]
+    for i in range(0, len(temp2)):
+        res = str((car.query(temp2[i])).value)
+        description = str(temp2[i])
+        if(res != 'None'):
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+    temp2 = command[0][1][2]
+    for i in range(0, len(temp2)):
+        res = str((car.query(temp2[i])).value)
+        description = str(temp2[i])
+        if(res != 'None'):
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+    # print(temp2)
 dbconn.commit()
