@@ -2,6 +2,7 @@ import obd
 import psycopg2
 import string
 from obd import OBDStatus
+import datetime
 # obd.logger.setLevel(obd.logging.DEBUG)
 obd.logger.removeHandler(obd.console_handler)
 # ask for userid
@@ -30,7 +31,7 @@ else:
     command = tuple(command)
     # same loop as before, loops through each commands and writes it to the database
     temp2 = command[0][1][1]
-    # first round of commands
+    # # first round of commands
     for i in range(0, len(temp2)):
         res = str((car.query(temp2[i])).value)
         description = str(temp2[i])

@@ -15,6 +15,21 @@ car = obd.OBD()  # auto-connects to USB or RF port
 # print(obd.commands.MAF)
 command = []
 test_dict = obd.commands.__dict__
+# VIN experiment
+vin = obd.OBDCommand.VIN
+print(vin)
+# async experiment
+# speed = obd.OBDCommand.SPEED
+# RPM = obd.OBDCommand.RPM
+# etemp = obd.OBDCommand.COOLANT_TEMP
+# fuel = obd.OBDCommand.FUEL_LEVEL
+speed = 45.0
+RPM = 1400
+etemp = 13
+fuel = 0.85
+time = datetime.now()
+cur.execute("INSERT INTO car0_temp VALUES (%s, %f, %f, %f, %f)",
+            (time, speed, RPM, etemp, fuel))
 # res = {key: test_dict[key] for key in test_dict.keys()
 #                                & {'MAF'}}
 # print(res['MAF'])
@@ -38,18 +53,21 @@ else:
         # print("Final command is")
         # print(description, res)
         if(res != 'None'):
-            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)",
+                        (description, res))
     temp2 = command[0][1][6]
     for i in range(0, len(temp2)):
         res = str((car.query(temp2[i])).value)
         description = str(temp2[i])
         if(res != 'None'):
-            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)",
+                        (description, res))
     temp2 = command[0][1][2]
     for i in range(0, len(temp2)):
         res = str((car.query(temp2[i])).value)
         description = str(temp2[i])
         if(res != 'None'):
-            cur.execute("INSERT INTO user0 VALUES (%s, %s)", (description, res))
+            cur.execute("INSERT INTO user0 VALUES (%s, %s)",
+                        (description, res))
     # print(temp2)
 dbconn.commit()
