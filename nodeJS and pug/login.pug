@@ -1,0 +1,32 @@
+doctype html
+include header.pug
+head
+  link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous")
+  link(href='https://fonts.googleapis.com/css?family=Open+Sans|Roboto&display=swap' rel='stylesheet')
+
+.container-fluid
+  h1 Sign In
+  form
+    h3
+      | User Name 
+      input(type='text' placeholder='User Name')
+    br
+    h3
+      | Password 
+      input(type='password' placeholder='Password')
+    br
+    br
+    .login
+      button.button(type='button') Log In
+  p or
+  .create-account
+    button.button2(type='button')
+      a(href='/new_user')  Create an account!
+  br
+  br
+  div(style='text-align:center')
+    a.forgot-password(href='forgot_password.html') Forgot Password?
+footer
+  p CSCI 3308
+  p Software Development Methods &amp; Tools
+  p Final Project
