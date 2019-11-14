@@ -1,0 +1,10 @@
+('/usr/local/lib/python3.7/dist-packages/obd-0.7.1-py3.7.egg',
+ None,
+ {'*.abi3.so',
+  '*.cpython-37m-x86_64-linux-gnu.so',
+  '*.py',
+  '*.pyc',
+  '*.so',
+  'EGG-INFO'},
+ 'DATA',
+ [])

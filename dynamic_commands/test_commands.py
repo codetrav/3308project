@@ -9,14 +9,42 @@ from psycopg2.extensions import QuotedString
 obd.logger.setLevel(obd.logging.DEBUG)
 # obd.logger.removeHandler(obd.console_handler)
 # * ask for userid
-# car_id = input("Plase input your userid from the website so we can upload your information to your account:")
+username = input(
+    "Please input your username from the website so we can upload your information to your account: ")
+print(username)
+username = str(username)
 # * make database connection
 # host=198.23.146.166  password=Sweden77
 dbconn = psycopg2.connect("host=198.23.146.166 dbname=car user=postgres")
 cur = dbconn.cursor()
+query = sql.SQL("SELECT id FROM users WHERE username = %s;")
+cur.execute(query, (username,))
+userid = cur.fetchone()
+userid = userid[0]
+if(username == 'codehawk'):
+    userid = 0
+print("User ID is", userid)
+query = sql.SQL("select count(*) from cars where owner = %s;")
+cur.execute(query, str(userid))
+carcount = cur.fetchall()[0][0]
+print("Car Count is", carcount)
+if(carcount > 1):
+    print("Looks like you have more than one car, which car would you like to access?\n")
+    car_make = input("Make: ")
+    car_model = input("Model: ")
+    query = sql.SQL("select id from cars where model = %s AND make = %s")
+    cur.execute(query, (car_model.lower(), car_make.lower()))
+    car_id = int(cur.fetchone()[0])
+    print(car_id)
+else:
+    cur.execute("select id from cars where owner = %s", str(userid))
+    car_id = cur.fetchone()[0]
+    print("Car ID is", car_id)
+dbtable = "car"+str(car_id)
+print(dbtable)
 # * make car connection:
 car = obd.OBD()  # * auto-connects to USB or RF port
-dbtable = "testing_dynamic_columns"
+# dbtable = "testing_dynamic_columns"
 # print(obd.commands.MAF)
 command = []
 test_dict = obd.commands.__dict__
@@ -78,7 +106,6 @@ else:
     # command = tuple(command)
     # print(command[0])
     temp2 = command[0][1][1]
-    print(command[0][1][1][1])
     for i in range(0, len(temp2)):
         # print("Temp2 is", temp2[1][i])
         # print("Type is", type(temp2[1][i]))
@@ -89,29 +116,29 @@ else:
         # print("Final command is")
         # print(description, res)
         if(res != 'None'):
-            columns.append(description.rsplit(': ',1)[1])
+            columns.append(description.rsplit(': ', 1)[1])
             results.append(str(res).rsplit(' ', 1)[0])
     temp2 = command[0][1][2]
     for i in range(0, len(temp2)):
         res = str((car.query(temp2[i])).value)
         description = str(temp2[i])
         if(res != 'None'):
-            columns.append(description.rsplit(': ',1)[1])
+            columns.append(description.rsplit(': ', 1)[1])
             results.append(str(res).rsplit(' ', 1)[0])
     temp2 = command[0][1][6]
     for i in range(0, len(temp2)):
         res = str((car.query(temp2[i])).value)
         description = str(temp2[i])
         if(res != 'None'):
-            columns.append(description.rsplit(': ',1)[1])
+            columns.append(description.rsplit(': ', 1)[1])
             results.append(str(res).rsplit(' ', 1)[0])
-    # temp2 = command[0][1][9]
-    # for i in range(0, len(temp2)):
-    #     res = str((car.query(temp2[i])).value)
-    #     description = str(temp2[i])
-    #     if(res != 'None'):
-    #         columns.append(description)
-    #         results.append(str(res).rsplit(' ', 1)[0])
+    temp2 = command[0][1][9]
+    for i in range(0, len(temp2)):
+        res = str((car.query(temp2[i])).value)
+        description = str(temp2[i])
+        if(res != 'None'):
+            columns.append(description.rsplit(': ', 1)[1])
+            results.append(str(res).rsplit(' ', 1)[0])
     # * length checking for all arrays
     if(len(columns) != len(results)):
         print("Results error")
@@ -119,13 +146,16 @@ else:
     else:
         print("Parsing success")
         # * checking all columns for existence
-        for i in range(0, len(columns)):
+        for i in range(1, len(columns)):
             data = columns[i]
-            cur.execute("select exists(select 1 from information_schema.columns where table_name=%s and column_name=%s);",
-                        (dbtable, data))
+            data = data.replace("'", " ")
+            data = data.replace("\"", " ")
+            cur.execute("select exists(select 1 from information_schema.columns where table_name='%s' and column_name='%s');",
+                        (AsIs(dbtable), AsIs(data)))
             test = cur.fetchone()[0]
             if(not test):
-                data = data.replace("\"", "\'")
+                data.replace("'", " ")
+                data.replace("\"", " ")
                 cur.execute("alter table %s add column \"%s\" VARCHAR(2000)",
                             (AsIs(dbtable), AsIs(data)))
         # * final insertion
