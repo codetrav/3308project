@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['../test_commands.py'],
-             pathex=['./dynamic_commands/executable'],
+a = Analysis(['../interface.py'],
+             pathex=['./dynamic_commands/executable/'],
              binaries=[],
              datas=[],
              hiddenimports=[],

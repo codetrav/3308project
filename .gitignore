@@ -130,6 +130,11 @@ dmypy.json
 .pyre/
 
 # Doxygen
-Doxyfile
-/doxygen
+/dynamic_commands/Doxyfile
+/dynamic_commands/doxygen
 
+# deprecated
+/dynamic_commands/deprecated
+
+# executable
+/dynamic_commands/executable/build/
