@@ -3,8 +3,7 @@
 # Parsing through all OBDCommands as a dictionary, and then querying the car with all of them. \n
 # Takes results, and writes them to database
 import sys
-sys.path.insert(
-    0, "/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
+sys.path.insert(0,"/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
 import obd
 import psycopg2
 import string
@@ -13,7 +12,7 @@ from obd import OBDStatus
 from psycopg2 import sql
 from psycopg2.extensions import AsIs
 from psycopg2.extensions import QuotedString
-from smartOBD import cur, dbtable, dbconn
+from .dbconnect import cur, dbtable, dbconn
 from progressbar import ProgressBar, Percentage, Bar
 # obd.logger.setLevel(obd.logging.DEBUG)
 
@@ -198,4 +197,8 @@ def fullQuery():
             # print(results)
             cur.execute(q1, results)
             dbconn.commit()
+            if(dbconn):
+                cur.close()
+                dbconn.close()
+                print("PostgreSQL connection is closed")
             print("Successful Read")

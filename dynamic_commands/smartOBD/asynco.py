@@ -1,13 +1,11 @@
-import sys
-sys.path.insert(
-    0, "/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
+from .dbconnect import cur, dbtable, dbconn
 import obd
 import time
 import psycopg2
 import datetime
 from psycopg2.extensions import AsIs
 from psycopg2 import sql
-from smartOBD import cur, dbtable, dbconn
+from obd import OBDStatus
 ## storage of data to be updated to the database
 data = [datetime.datetime.now()]
 obd.logger.removeHandler(obd.console_handler)
@@ -102,15 +100,22 @@ def new_fuel(f):
 def getAsync(dur):
     dbtable = userGet()
     connection = obd.Async()
-    connection.watch(obd.commands.SPEED, callback=new_speed)
-    connection.watch(obd.commands.RPM, callback=new_rpm)
-    connection.watch(obd.commands.COOLANT_TEMP, callback=new_temp)
-    connection.watch(obd.commands.FUEL_LEVEL, callback=new_fuel)
-    connection.start()
-    # the callback will now be fired upon receipt of new values
-    if(connection.is_connected()):
-        print("Successful Connection")
-        input("Press any key to exit async...")
-        connection.stop()
-        cur.execute("delete from %s;", [AsIs(dbtable)])
-        dbconn.commit()
+    if(connection.status() == OBDStatus.NOT_CONNECTED):
+        print("Failed OBD-II Query, please try again")
+    else:
+        connection.watch(obd.commands.SPEED, callback=new_speed)
+        connection.watch(obd.commands.RPM, callback=new_rpm)
+        connection.watch(obd.commands.COOLANT_TEMP, callback=new_temp)
+        connection.watch(obd.commands.FUEL_LEVEL, callback=new_fuel)
+        connection.start()
+        # the callback will now be fired upon receipt of new values
+        if(connection.is_connected()):
+            print("Successful Connection")
+            input("Press any key to exit async...")
+            connection.stop()
+            cur.execute("delete from %s;", [AsIs(dbtable)])
+            dbconn.commit()
+            if(dbconn):
+                cur.close()
+                dbconn.close()
+                print("PostgreSQL connection is closed")

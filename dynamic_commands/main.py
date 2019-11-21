@@ -1,10 +1,14 @@
-import smartOBD
+import sys
+sys.path.insert(0,"/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
 import obd
 import time
 import psycopg2
 import datetime
 from psycopg2.extensions import AsIs
 from psycopg2 import sql
+import smartOBD
+from smartOBD import asynco
+from smartOBD import test_commands
 
 ##main function
 # 
@@ -13,14 +17,6 @@ from psycopg2 import sql
 
 def main():
     print("Welcome to smartOBD")
-    ##database connection
-    dbconn = psycopg2.connect("host=198.23.146.166 dbname=car user=postgres")
-    if(not dbconn):
-        print("Database Connection Failed")
-        exit()
-    cur = dbconn.cursor()
-    smartOBD.cur = cur
-    smartOBD.dbconn = dbconn
     print("Choose your action:\n")
     print("(0) Async allows smartOBD to give you live data on your vehicle\n")
     print("(1) Full Read will store all the data from your car's computer\n")
@@ -30,7 +26,7 @@ def main():
     ## asynchronous
     # @param choose_action The action
     if(choose_action == '0'):
-        smartOBD.getAsync(60)
+        asynco.getAsync(60)
         
         # x = 0
         # while x < 30:
@@ -42,12 +38,7 @@ def main():
         #     x += 1
     ## full query
     elif(choose_action == '1'):
-        smartOBD.fullQuery()
-    ## closing database connection
-    if(dbconn):
-        cur.close()
-        dbconn.close()
-        print("PostgreSQL connection is closed")
+        test_commands.fullQuery()
 
 ## constructor
 if __name__ == "__main__":
