@@ -1,11 +1,11 @@
-import sys
+import sys,os
 sys.path.insert(
-    0, "/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
+    0, os.path.realpath(os.path.dirname(__file__)+"/.."))
 
 import unittest
 from unittest.mock import patch
 from unittest.mock import MagicMock
-import main
+from smartOBD import main
 from smartOBD import test_commands
 from smartOBD import dbconnect
 from smartOBD import asynco
