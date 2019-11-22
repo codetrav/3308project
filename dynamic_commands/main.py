@@ -39,7 +39,6 @@ def main():
     ## full query
     elif(choose_action == '1'):
         test_commands.fullQuery()
-    print("This is to test the .travis.yml")
 ## constructor
 if __name__ == "__main__":
     main()
