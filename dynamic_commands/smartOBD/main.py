@@ -1,5 +1,6 @@
-import sys
-sys.path.insert(0,"/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
+import sys,os
+sys.path.insert(
+    0, os.path.realpath(os.path.dirname(__file__)))
 import obd
 import time
 import psycopg2
