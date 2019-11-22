@@ -141,3 +141,5 @@ dmypy.json
 
 # script for ease of stuff
 run.sh
+
+/dynamic_commands/requirements.txt
