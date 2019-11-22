@@ -16,8 +16,7 @@ import pytest
 
 class TestClass2():
     def test_getAsync(self, monkeypatch):
-        monkeypatch.setattr('sys.stdin', open(
-            '/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/my3308project/dynamic_commands/tests/inputs.txt'))
+        monkeypatch.setattr('sys.stdin', open('inputs.txt'))
         asynco.getAsync(10)
 
     def test_db_assert(self):
@@ -25,8 +24,7 @@ class TestClass2():
         assert type(dbconnect.cur) is psycopg2._ext.cursor
 
     def test_fullQuery(self, monkeypatch):
-        monkeypatch.setattr('sys.stdin', open(
-            '/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/my3308project/dynamic_commands/tests/inputs.txt'))
+        monkeypatch.setattr('sys.stdin', open('inputs.txt'))
         test_commands.fullQuery()
 stdin = sys.stdin
 main_input0 = StringIO('0')
