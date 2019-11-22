@@ -2,8 +2,7 @@
 # 
 # Parsing through all OBDCommands as a dictionary, and then querying the car with all of them. \n
 # Takes results, and writes them to database
-import sys
-sys.path.insert(0,"/home/willwalker/OneDrive/2019/Fall 2019/CSCI 3308/Project/Git/3308project/dynamic_commands")
+
 import obd
 import psycopg2
 import string
