@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to smartOBD’s documentation! &#8212; smartOBD 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">smartOBD 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-smartobd-s-documentation">
+<h1>Welcome to smartOBD’s documentation!<a class="headerlink" href="#welcome-to-smartobd-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>smartOBD is a python module that uses ELM-347 OBD-II adapters to write data about a vehicle to a database, either in real-time using <a class="reference internal" href="#module-asynco" title="asynco: Asynchronous connection (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asynco</span></code></a>, or in aggregate using <code class="xref py py-mod docutils literal notranslate"><span class="pre">test_commands</span></code>.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="module-smartOBD.main">
+<span id="interface-main-function"></span><h1>Interface (Main function)<a class="headerlink" href="#module-smartOBD.main" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-main"></span><p>Initialization and interface
+Simple command line interface, with choices for asynchronous data and a full data query</p>
+<dl class="function">
+<dt id="smartOBD.main.main">
+<code class="sig-prename descclassname">smartOBD.main.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.main.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function determines which functionality the user would like to use, and calls it</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-smartOBD.asynco">
+<span id="asynchronous-connections"></span><h1>Asynchronous Connections<a class="headerlink" href="#module-smartOBD.asynco" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-asynco"></span><p>Reads data using async functions and writes to a single row of the database to be read by the website</p>
+<dl class="function">
+<dt id="smartOBD.asynco.getAsync">
+<code class="sig-prename descclassname">smartOBD.asynco.</code><code class="sig-name descname">getAsync</code><span class="sig-paren">(</span><em class="sig-param">dur</em><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.asynco.getAsync" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets connection for async fucntions
+Starts connection and waits for key press to stop connection</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="smartOBD.asynco.userGet">
+<code class="sig-prename descclassname">smartOBD.asynco.</code><code class="sig-name descname">userGet</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.asynco.userGet" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets the user and write the dbtable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbconn</strong> (<em>psycopg2 database connection</em>) – The database connection class.</p></li>
+<li><p><strong>cur</strong> (<em>psycopg2 database cursor</em>) – The cursor from the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>name of car table (str).</p>
+</dd>
+</dl>
+<p>Writes dbtable name to global variable dbtable</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="smartOBD.asynco.writeToDB">
+<code class="sig-prename descclassname">smartOBD.asynco.</code><code class="sig-name descname">writeToDB</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.asynco.writeToDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes to database
+Erases data from database and writes new values to be read by the website</p>
+</dd></dl>
+
+<dl class="simple">
+<dt>Inputs</dt><dd><ul class="simple">
+<li><p>Username (str) – username in database</p></li>
+<li><p>Car make/model (str, str) – make and model of car desired if user has more than one car in the database</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="module-smartOBD.test_commands">
+<span id="full-query"></span><h1>Full Query<a class="headerlink" href="#module-smartOBD.test_commands" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-fullQuery"></span><p>Runs every compatible command to query as much data as possible from vehicle and writes to a new row in the database</p>
+<dl class="function">
+<dt id="smartOBD.test_commands.fullQuery">
+<code class="sig-prename descclassname">smartOBD.test_commands.</code><code class="sig-name descname">fullQuery</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.test_commands.fullQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets dbtable name, then attempts connection with car.
+After connection is established, all commands are queried, and the successful ones are written to the database</p>
+</dd></dl>
+
+<p>Parses through all OBDCommands as a dictionary, and queries the car with all commands,
+appends results to a data array,
+checks database for all columns and appends new ones,
+finally, writes to database
+.. code-block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># dictionary generation</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># print(key, test_dict[key])</span>
+    <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">test_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+
+<span class="c1">#basic loop for running commands from dictionary</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp2</span><span class="p">)):</span>
+<span class="n">res</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">car</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">description</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="k">if</span><span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">):</span>
+    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">description</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>After running all queries, final column generation and insertion
+.. code-block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># * length checking for all arrays</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results error&quot;</span><span class="p">)</span>
+<span class="c1"># *final loop for database access</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsing success&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">),</span><span class="s2">&quot;=&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+    <span class="c1"># * checking all columns for existence</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;select exists(select 1 from information_schema.columns where table_name=&#39;</span><span class="si">%s</span><span class="s2">&#39; and column_name=&#39;</span><span class="si">%s</span><span class="s2">&#39;);&quot;</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">AsIs</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span> <span class="n">AsIs</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">test</span><span class="p">):</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;alter table </span><span class="si">%s</span><span class="s2"> add column </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> VARCHAR(2000)&quot;</span><span class="p">,</span>
+                        <span class="p">(</span><span class="n">AsIs</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span> <span class="n">AsIs</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TABLE ALTERED&quot;</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># * final insertion</span>
+    <span class="n">dbconn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">SQL</span><span class="p">(</span><span class="s2">&quot;insert into </span><span class="si">{0}</span><span class="s2"> values (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="o">.</span><span class="n">Identifier</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span>
+                                                        <span class="n">sql</span><span class="o">.</span><span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sql</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">()</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)))</span>
+    <span class="c1"># print(results)</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+    <span class="n">dbconn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Successful Read&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<span class="target" id="module-fullQuery"></span><p>Runs every compatible command to query as much data as possible from vehicle and writes to a new row in the database</p>
+<dl class="function">
+<dt>
+<code class="sig-prename descclassname">smartOBD.test_commands.</code><code class="sig-name descname">userGet</code><span class="sig-paren">(</span><em class="sig-param">dbconn</em>, <em class="sig-param">cur</em><span class="sig-paren">)</span></dt>
+<dd><p>This function gets the user and write the dbtable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbconn</strong> (<em>psycopg2 database connection</em>) – The database connection class.</p></li>
+<li><p><strong>cur</strong> (<em>psycopg2 database cursor</em>) – The cursor from the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>name of car table (str).</p>
+</dd>
+</dl>
+<p>Writes dbtable name to global variable dbtable</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to smartOBD’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#module-smartOBD.main">Interface (Main function)</a></li>
+<li><a class="reference internal" href="#module-smartOBD.asynco">Asynchronous Connections</a></li>
+<li><a class="reference internal" href="#module-smartOBD.test_commands">Full Query</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">smartOBD 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Will Walker.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

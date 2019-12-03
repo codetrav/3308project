@@ -1,0 +1,44 @@
+doctype html
+include header.pug
+head
+  link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous")
+  title New User
+.container
+  h1 New User
+  p
+    | First Name: 
+    input(type='text' placeholder='First Name' name='first_name')
+  br
+  p
+    | Last Name: 
+    input(type='text' placeholder='Last Name' name='last_name')
+  br
+  p
+    | Email: 
+    input(type='email' placeholder='Email' name='email')
+  br
+  p
+    | User Name: 
+    input(type='text' placeholder='User Name' name='username')
+  br
+  p
+    | Create Password: 
+    input(type='password' placeholder='Create Password' name='password')
+  br
+  p
+    | Verify Password: 
+    input(type='password' placeholder='Verify Password' name='password')
+  br
+  .center
+    button.button(type='button') Create Account
+  br
+  .forgot-password
+    p(style='text-align: center;')
+      | Already have an account? 
+      a(href='/login') Log in
+    br
+    br
+footer.center
+  p(style='text-align: center;') CSCI 3308
+  p(style='text-align: center;') Software Development Methods &amp; Tools
+  p(style='text-align: center;') Final Project

@@ -1,0 +1,43 @@
+doctype html
+include header.pug
+head
+ 
+  link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous")
+  -var u =  user_name.username
+  h4 &nbsp Welcome, #{u}
+.container-fluid
+  .row
+    .col-sm
+      .card
+        .card-body
+          h4 Your Cars:
+          ul.list-group
+            li.list-group-item 2014 Dodge Charger
+            li.list-group-item 2008 Nissan Murano
+            li.list-group-item 2001 Toyota Camry
+            li.list-group-item 2006 Toyota Tocoma
+    .col-sm
+      .card
+        .card-body
+          h4 Recent Scans:
+            table.table
+              thead
+                tr
+                  th(scope='col') Time
+                  th(scope='col') Car
+                  th(scope='col') Status
+
+  .row
+     .col-sm
+       br
+       br
+  .row
+    .col-sm
+      .card
+        .card-body
+          h4 Health Overview:
+footer
+  p(style='text-align: center;') CSCI 3308
+  p(style='text-align: center;') Software Development Methods &amp; Tools
+  p(style='text-align: center;') Final Project
+

@@ -1,0 +1,3 @@
+pyinstaller: pyinstaller --distpath ./dynamic_commands/executable/dist/ --workpath ./dynamic_commands/executable/build/ -F --specpath ./dynamic_commands/executable/ -n smartOBD ./dynamic_commands/interface.py 
+
+doxygen: doxygen Doxyfile, cd .., cd doxygen/latex, make
