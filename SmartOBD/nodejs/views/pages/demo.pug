@@ -1,0 +1,17 @@
+//SmartOBD Demo Page
+div.container
+b Smart OBD Data Example Page
+
+div.container
+    div.col-8
+      div.table-responsive
+        table(style='width:100%',border='1')
+          tr
+             td= 'Description'
+             td= 'Data'
+          each n in car_info
+            tr
+              td= n.title
+              td= n.code
+
+

@@ -1,0 +1,42 @@
+doctype html
+head
+  title Smart OBD
+  link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css", integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS", crossorigin="anonymous")
+
+style
+  include home.css
+.login-box
+  ul
+    li
+      a(href='/new_user') Sign Up
+    li
+      a(href='/login') Log In
+.fixed2
+  h3  Welcome!
+  ul
+    li
+      a(href='#') Car 1
+    li
+      a(href='#') Car 2
+    li
+      a(href='#') Car 3
+.center
+  img.center(src='views/pages/img/logo.png' alt='logo' height='200px' width='400px')
+
+  img(src='/views/pages/img/example-image.png' alt='example-car')
+  br
+  br
+  br
+  .navigation
+    ul
+      li
+        a(href='/home') Home
+      li
+        a(href='/full_log') Full Data Log
+      li
+        a(href='/live') Live data
+      li
+        a(href='/export') Export Mechanic Report
+      li
+        a(href='/downloads') Downloads
+

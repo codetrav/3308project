@@ -1,0 +1,122 @@
+.car-container{
+  margin: 0 auto;
+  width: 60%; 
+  margin-top: 20px;
+
+ 
+}
+.container-50{
+   font-size: 50%;
+}
+.center{
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.live-data{
+    display: grid;
+    grid-template-columns: 275px 275px 275px;
+    grid-template-rows: 200px 200px;
+    border:1px;
+}
+.speed{
+  background-color: white;
+
+}
+.speedometer{
+  min-width: 310px; 
+  max-width: 400px; 
+  height: 300px; 
+  margin: 0 auto;
+}
+.login-box{
+  position: fixed;
+  top: 30px;
+  right:0;
+  
+  
+}
+.fixed2{
+  position: fixed;
+  top: 0;
+  left:0;
+
+}
+
+.engine-temp{
+
+}
+.rpm{
+
+}
+.log{
+  font-size: 5px;
+  background-color: rgb(34,32,44);
+}
+.fuel-rate{
+
+}
+.battery{
+
+}
+body{
+  background-color: rgb(34,32,44);
+}
+h1{
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+h3{
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  background-color: rgb(0,146,69);
+
+}
+h4{
+  color: white;
+  font-family: 'Open Sans', sans-serif;  
+}
+p{
+  color:gray;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
+a{
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+footer{
+
+}
+html
+{
+    font-size: 100%;
+}

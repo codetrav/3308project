@@ -1,0 +1,26 @@
+doctype html
+head
+  include header.pug
+.container-fluid
+  h1 Sign In
+  form(method='POST' action='/login')
+    div.form-group
+      h4 Username
+      input#uname.form-control(type='text', placeholder='Username' name='uname')
+    div.form-group
+        h4 Password
+        input#pword.form-control(type='password', placeholder='Password' name='pword')
+        br
+    button.btn.btn-primary(type='submit' id='log-in-button') Log In
+  p or
+  .create-account
+    button.button2(type='button')
+      a(href='/new_user')  Create an account!
+  br
+  br
+  div(style='text-align:center')
+    a.forgot-password(href='forgot_password.html') Forgot Password?
+footer
+  p CSCI 3308
+  p Software Development Methods &amp; Tools
+  p Final Project
