@@ -1,0 +1,50 @@
+*
+  box-sizing: border-box
+  font-family: 'Passion One', sans-serif
+  font-weight: 400
+nav
+  background: #efefef
+  margin: 0 auto
+  width: 400px
+
+ul
+  list-style: none
+  margin: 0
+  padding: 0
+
+  a
+    text-align: center
+
+  li a
+    text-decoration: none
+    color: #FFF
+    background: grey
+    display: inline-block
+    width: 100px
+    padding: 10px 20px
+
+    &:hover
+      background: #000
+
+nav > ul > li
+  float: left
+
+nav > ul:after
+  display: center
+  content: ''
+  clear: both
+
+nav > ul ul
+  position: absolute
+  visibility: hidden
+
+nav ul li:hover > ul
+  visibility: visible
+
+nav ul ul li
+  position: relative
+
+nav ul ul ul
+  position: absolute
+  top: 0
+  left: 100%
