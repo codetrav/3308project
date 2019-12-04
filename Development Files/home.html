@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Smart OBD</title>
+		<link rel="stylesheet" href="css/smartOBD.css">
+
+	</head>
+	<body>
+		
+
+		<div class="container">
+		<img  src="img/logo.png"  alt="logo" class="center" height="200px" width="400px" />
+
+		
+
+		<br>
+		<br>
+
+		<img src="img/car/example-car.svg" alt="example-car">
+		<br>
+		<br>
+		<br>
+		<div class="nav">
+		<ul>
+  			<li><a href="home.html">Home</a></li>
+  			<li><a href="live-data.html">Live Data</a></li>
+  			<li><a href="history.html">History</a></li>
+		</ul>
+		<br>
+		<br>
+		</div>
+			<div class="live-data">
+
+
+					<h1>
+	Overall Car Health: <!-- Add percentage of error codes from database here -->
+	</h1>
+
+
+
+	<div class="containerbox">
+	        <div id="centerbox1">
+
+	          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="car" class="svg-inline--fa fa-car fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M499.99 176h-59.87l-16.64-41.6C406.38 91.63 365.57 64 319.5 64h-127c-46.06 0-86.88 27.63-103.99 70.4L71.87 176H12.01C4.2 176-1.53 183.34.37 190.91l6 24C7.7 220.25 12.5 224 18.01 224h20.07C24.65 235.73 16 252.78 16 272v48c0 16.12 6.16 30.67 16 41.93V416c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h256v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-54.07c9.84-11.25 16-25.8 16-41.93v-48c0-19.22-8.65-36.27-22.07-48H494c5.51 0 10.31-3.75 11.64-9.09l6-24c1.89-7.57-3.84-14.91-11.65-14.91zm-352.06-17.83c7.29-18.22 24.94-30.17 44.57-30.17h127c19.63 0 37.28 11.95 44.57 30.17L384 208H128l19.93-49.83zM96 319.8c-19.2 0-32-12.76-32-31.9S76.8 256 96 256s48 28.71 48 47.85-28.8 15.95-48 15.95zm320 0c-19.2 0-48 3.19-48-15.95S396.8 256 416 256s32 12.76 32 31.9-12.8 31.9-32 31.9z"></path></svg>
+
+	        </div>
+	   </div>
+
+	   		<br>
+	   		<br>
+			<br>
+			<br>
+			<br>
+			<br>
+	   		<br>
+			<br>
+			<br>
+			<br>
+
+
+
+
+				<div id="speed">
+					<br>
+	   				<br>
+					<br>
+					<br>
+			
+					<img id="speedImage" src="widgets/spedometer/low.svg" alt="thermometer" height="255"width="175">
+					<p id="speedText">
+						Speed: 0
+					</p>
+				</div>
+				<div id="engine-temp">
+					<br>
+	   				<br>
+					<br>
+					<br>
+					<img id="engineImage" src="widgets/thermometer/low.svg" alt="thermometer" height="255"width="175">
+					<p id="engineText">
+						Engine Temp: 0
+					</p>
+				</div>
+				<div id="rmp">
+					<br>
+	   				<br>
+					<br>
+					<br>
+					<img id="rmpImage" src="widgets/rpm/low.svg" alt="thermometer" height="255"width="175">
+					<p>
+						RPM: 0
+					</p>
+				</div>
+				<div id="maf">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+	   				<br>
+					<br>
+					<br>
+					<img id="mafImage" src="widgets/maf/low.svg" alt="thermometer" height="255"width="175">
+					<p>
+						MAF: 0
+					</p>
+				</div>
+				<div id="fuel-rate">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+	   				<br>
+					<br>
+					<br>
+
+					<img  id="fuelImage" src="widgets/fuel-rate/low.svg" alt="thermometer" height="255"width="175">
+					<p>
+						Fuel Rate: Low
+					</p>
+				</div>
+				<div id="battery">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+	   				<br>
+					<br>
+					<br>
+					<br>
+
+					<img id="batteryImage" src="widgets/battery/low.svg" alt="thermometer" height="255"width="175">
+					<p>
+						Battery: Low
+					</p>
+				</div>
+			</div>
+
+			<div class="live-data">
+			<h1>
+				Temperature Readings: 
+			</h1>
+
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<img id="guageImage1" src="widgets/guages/low.svg" alt="guage" height="135" width="175">
+			<p>
+				Engine Coolant Temp.
+			</p>
+			</div>
+
+			<div>
+			<img id="guageImage2" src="widgets/guages/low.svg" alt="guage" height="135" width="175">
+			<p>
+				Ambient Air Temp.
+			</p>
+			</div>
+
+			<div>
+			<img id="guageImage3" src="widgets/guages/low.svg" alt="guage" height="135" width="175">
+			<p>
+				Intake Air Temp.
+			</p>
+			</div>
+
+			</div>
+
+			<div class="live-data2">
+			<h1>
+				Sensor Readings:
+			</h1>
+			<br>
+			<br>
+
+			<div>
+			<img id="o2Image1" src="widgets/sensors/o2/bad.svg" alt="o2" height="255" width="175">
+			<p>
+				O2 Sensor 1
+			</p>
+			</div>
+
+			<div>
+			<img id="o2Image2" src="widgets/sensors/o2/bad.svg" alt="o2" height="255" width="175">
+			<p>
+				O2 Sensor 2
+			</p>
+			</div>
+
+			<div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<img id="heatImage1" src="widgets/sensors/heat/bad.svg" alt="heat" height="255" width="175">	
+			<p>
+				Heat Monitor Sensor 1
+			</p>
+			</div>
+
+			<div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<img id="heatImage2" src="widgets/sensors/heat/bad.svg" alt="heat" height="255" width="175">	
+			<p>
+				Heat Monitor Sensor 2
+			</p>
+			</div>
+
+
+
+			</div>
+
+
+
+		</div>
+
+		<br>
+		<br>
+		<br>
+		
+	</body>
+	<footer>
+
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+        <p style="text-align: center;">CSCI 3308</p>
+        <p style="text-align: center;">Software Development Methods & Tools</p>
+        <p style="text-align: center;">Final Project</p>
+	</footer>
+	</html>

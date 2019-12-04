@@ -16,42 +16,14 @@
     grid-template-rows: 200px 200px;
     border:1px;
 }
+.live-data2{
+    display: grid;
+    grid-template-columns: 275px 275px;
+    grid-template-rows: 200px 200px;
+    border:1px;
+}
 .speed{
 	background-color: white;
-
-}
-.speedometer{
-  min-width: 310px; 
-  max-width: 400px; 
-  height: 300px; 
-  margin: 0 auto;
-}
-.fixed{
-  position: fixed;
-  top: 0;
-  right:0;
-  
-  
-}
-.fixed2{
-  position: fixed;
-  top: 0;
-  left:0;
-
-}
-.engine-temp{
-
-}
-.rpm{
-
-}
-.maf{
-
-}
-.fuel-rate{
-
-}
-.battery{
 
 }
 body{
@@ -82,23 +54,25 @@ a{
 	font-family: 'Open Sans', sans-serif;
 	text-align: center;
 }
-ul {
+ .nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #333;
+  text-align: center;
 }
 
-li {
+.nav ul li {
   float: left;
+  display: inline-block;
 }
 
-li a {
-  display: block;
+.nav li a {
+  display: inline-block;
   color: white;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 98px;
   text-decoration: none;
 }
 
