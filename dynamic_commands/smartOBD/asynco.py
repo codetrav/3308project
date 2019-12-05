@@ -85,7 +85,7 @@ def writeToDB():
     # print("data is", data)
     cur.execute("delete from %s;", [AsIs(dbtable)])
     cur.execute(
-        "insert into %s VALUES(%s, %s, %s, %s, %s);", (AsIs(dbtable), data[0], data[1], data[2], data[3], data[4]))
+        "insert into %s VALUES(%s, %s, %s, %s, %s, %s, %s);", (AsIs(dbtable), data[0], data[1], data[2], data[3], data[4],data[5]. data[6]))
     dbconn.commit()
     
 
@@ -115,7 +115,16 @@ def new_temp(t):
 #  callback for fuel level writing to @data
 def new_fuel(f):
     data.append(str(f.value))
+
+def new_maf(m):
+    data.append(str(m.value))
+
+
+def new_volt(v):
+    data.append(str(v.value))
     writeToDB(data, dbtable, dbconn, cur)
+
+
 
 ##getAsync
 # 
@@ -132,7 +141,10 @@ def getAsync(dur):
         connection.watch(obd.commands.SPEED, callback=new_speed)
         connection.watch(obd.commands.RPM, callback=new_rpm)
         connection.watch(obd.commands.COOLANT_TEMP, callback=new_temp)
+        connection.watch(obd.commands.MAF, callback=new_maf)
+        connection.watch(obd.commands.CONTROL_MODULE_VOLTAGE, callback=new_volt)
         connection.watch(obd.commands.FUEL_LEVEL, callback=new_fuel)
+        
         connection.start()
         # the callback will now be fired upon receipt of new values
         if(connection.is_connected()):
