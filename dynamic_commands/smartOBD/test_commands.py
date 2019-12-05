@@ -21,7 +21,8 @@ from psycopg2 import sql
 from psycopg2.extensions import AsIs
 from psycopg2.extensions import QuotedString
 from .dbconnect import cur, dbtable, dbconn
-from progressbar import ProgressBar, Percentage, Bar
+from tqdm import tqdm
+from tqdm import trange
 # obd.logger.setLevel(obd.logging.DEBUG)
 
 ## User Get
@@ -96,40 +97,94 @@ def fullQuery():
         columns = ["time"]
         # * column values
         results = [datetime.datetime.now()]
-        pbar = ProgressBar(widgets=['Generating Dictionary ',Percentage(), Bar()])
         ##dictionary generation
-        for key, i in pbar(test_dict.items()):
+        for key, i in tqdm(test_dict.items(), desc="Generating Dictionary"):
             # print(key, test_dict[key])
             command.append((key, test_dict[key]))
         # command = tuple(command)
         # print(command[0])
-        temp2 = command[0][1][1]
-        for i in range(0, len(temp2)):
-            # print("Temp2 is", temp2[1][i])
-            # print("Type is", type(temp2[1][i]))
-            res = str((car.query(temp2[i])).value)
-            # print('Passed query')
-            description = str(temp2[i])
-            # print(type(description))
-            # print("Final command is")
-            # print(description, res)
-            if(res != 'None'):
-                columns.append(description.rsplit(': ', 1)[1])
-                results.append(str(res).rsplit(' ', 1)[0])
-        temp2 = command[0][1][2]
-        for i in range(0, len(temp2)):
-            res = str((car.query(temp2[i])).value)
-            description = str(temp2[i])
-            if(res != 'None'):
-                columns.append(description.rsplit(': ', 1)[1])
-                results.append(str(res).rsplit(' ', 1)[0])
-        temp2 = command[0][1][6]
-        for i in range(0, len(temp2)):
-            res = str((car.query(temp2[i])).value)
-            description = str(temp2[i])
-            if(res != 'None'):
-                columns.append(description.rsplit(': ', 1)[1])
-                results.append(str(res).rsplit(' ', 1)[0])
+        with tqdm(desc="Querying Car", total=82) as pbar:
+            temp2 = command[0][1][1]
+            for i in range(3, 32):
+                # print("Temp2 is", temp2[1][i])
+                # print("Type is", type(temp2[1][i]))
+                res = str((car.query(temp2[i])).value)
+                # print('Passed query')
+                description = str(temp2[i])
+                # print(type(description))
+                # print("Final command is")
+                # print(description, res)
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(34, 64):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(66, len(temp2)):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+
+
+            temp2 = command[0][1][6]
+            for i in range(1, 32):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(33, 48):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(49, 64):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(65, 96):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(97, 128):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(129, 160):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+            for i in range(161, len(temp2)):
+                res = str((car.query(temp2[i])).value)
+                description = str(temp2[i])
+                if(res != 'None'):
+                    columns.append(description.rsplit(': ', 1)[1])
+                    results.append(str(res).rsplit(' ', 1)[0])
+                    pbar.update()
+        pbar.close()
         # temp2 = command[0][1][9]
         # for i in range(0, len(temp2)):
         #     res = str((car.query(temp2[i])).value)
@@ -143,9 +198,8 @@ def fullQuery():
         # *final loop for database access
         else:
             print("Parsing success")
-            print(len(columns),"=",len(results))
             # * checking all columns for existence
-            for i in range(1, len(columns)):
+            for i in trange(1, len(columns),desc="Sending to Database"):
                 data = columns[i]
                 data = data.replace("'", " ")
                 data = data.replace("\"", " ")
@@ -155,7 +209,7 @@ def fullQuery():
                 if(not test):
                     data.replace("'", " ")
                     data.replace("\"", " ")
-                    cur.execute("alter table %s add column \"%s\" VARCHAR(2000)",
+                    cur.execute("alter table %s add column \"%s\" VARCHAR(6000)",
                                 (AsIs(dbtable), AsIs(data)))
                     print("TABLE ALTERED",data)
             # * final insertion
