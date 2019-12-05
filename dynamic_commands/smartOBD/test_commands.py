@@ -7,8 +7,8 @@
 
 Runs every compatible command to query as much data as possible from vehicle and writes to a new row in the database
 """
-## \namespace test_commands
-# 
+# \namespace test_commands
+#
 # Parsing through all OBDCommands as a dictionary, and then querying the car with all of them. \n
 # Takes results, and writes them to database
 
@@ -25,11 +25,13 @@ from tqdm import tqdm
 from tqdm import trange
 # obd.logger.setLevel(obd.logging.DEBUG)
 
-## User Get
-# 
+# User Get
+#
 # fetches car table and sets dbtable to carX \n
 # inputs: username \n
 # sorts through database to find final car table
+
+
 def userGet(dbconn, cur):
     """ This function gets the user and write the dbtable
 
@@ -62,8 +64,9 @@ def userGet(dbconn, cur):
             "Looks like you have more than one car, which car would you like to access?\n")
         car_make = input("Make: ")
         car_model = input("Model: ")
-        query = sql.SQL("select id from cars where model = %s AND make = %s")
-        cur.execute(query, (car_model.lower(), car_make.lower()))
+        query = sql.SQL(
+            "select id from cars where model = %s AND make = %s AND owner=%s")
+        cur.execute(query, (car_model.lower(), car_make.lower(), userid))
         car_id = cur.fetchone()
         if(car_id == None):
             print("Car not found, please try again")
@@ -79,14 +82,15 @@ def userGet(dbconn, cur):
     dbtable = "car"+str(car_id)
     return dbtable
 
+
 def fullQuery():
     """ 
     Gets dbtable name, then attempts connection with car.
     After connection is established, all commands are queried, and the successful ones are written to the database
     """
-    dbtable = userGet(dbconn,cur)
+    dbtable = userGet(dbconn, cur)
     obd.logger.removeHandler(obd.console_handler)
-    ## * make car connection:
+    # * make car connection:
     car = obd.OBD()  # * auto-connects to USB or RF port
     command = []
     test_dict = obd.commands.__dict__
@@ -97,7 +101,7 @@ def fullQuery():
         columns = ["time"]
         # * column values
         results = [datetime.datetime.now()]
-        ##dictionary generation
+        # dictionary generation
         for key, i in tqdm(test_dict.items(), desc="Generating Dictionary"):
             # print(key, test_dict[key])
             command.append((key, test_dict[key]))
@@ -132,7 +136,6 @@ def fullQuery():
                     columns.append(description.rsplit(': ', 1)[1])
                     results.append(str(res).rsplit(' ', 1)[0])
                     pbar.update()
-
 
             temp2 = command[0][1][6]
             for i in range(1, 32):
@@ -199,7 +202,7 @@ def fullQuery():
         else:
             print("Parsing success")
             # * checking all columns for existence
-            for i in trange(1, len(columns),desc="Sending to Database"):
+            for i in trange(1, len(columns), desc="Sending to Database"):
                 data = columns[i]
                 data = data.replace("'", " ")
                 data = data.replace("\"", " ")
@@ -211,7 +214,7 @@ def fullQuery():
                     data.replace("\"", " ")
                     cur.execute("alter table %s add column \"%s\" VARCHAR(6000)",
                                 (AsIs(dbtable), AsIs(data)))
-                    print("TABLE ALTERED",data)
+                    print("TABLE ALTERED", data)
             # * final insertion
             dbconn.commit()
             q1 = sql.SQL("insert into {0} values ({1})").format(sql.Identifier(dbtable),
