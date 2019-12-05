@@ -53,6 +53,7 @@ then
     cd dynamic_commands
     pyinstaller --distpath ./executable/dist/ --workpath ./executable/build/ -F --specpath ./executable/ -n smartOBD main.py 
     cd ..
+    cp dynamic_commands/executable/dist/smartOBD dynamic_commands/smartOBDexecutable
 fi
 
 
@@ -68,6 +69,7 @@ then
     make latexpdf
     cd ..
     cd ..
+    cp dynamic_commands/docs/build/latex/smartobd.pdf dynamic_commands/documentation.pdf
 fi
 
 if [ $TEST = "TRUE" ]
