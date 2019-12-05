@@ -82,5 +82,13 @@ li a:hover {
 }
 
 footer{
+  background-color: gray; 
+}
 
+footer p{
+  color: rgb(34,32,44);
+}
+
+.footerText{
+  color: rgb(34,32,44);
 }
