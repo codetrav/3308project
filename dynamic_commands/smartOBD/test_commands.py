@@ -226,4 +226,4 @@ def fullQuery():
                 cur.close()
                 dbconn.close()
                 print("PostgreSQL connection is closed")
-            print("Successful Read")
+            print("Successful Query! Data uploaded to website!")

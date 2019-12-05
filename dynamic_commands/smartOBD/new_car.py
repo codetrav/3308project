@@ -9,7 +9,7 @@ from .dbconnect import dbconn, cur, dbtable
 
 def new_car():
     """
-    Creates new car in database based on username. Collects make, model, model year for car and adds it to the cars table
+    Creates new car in database based on username. Collects make, model, model year for car and adds it to the cars table. 
     """
     print("Add new car to database")
     username = input("Please input your username: ")
@@ -41,3 +41,4 @@ def new_car():
         cur.close()
         dbconn.close()
         print("PostgreSQL connection is closed")
+        print("Added car successfully! Restart smartOBD to read from your car!")

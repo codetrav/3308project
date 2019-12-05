@@ -27,7 +27,13 @@ Interface (Main function)
 .. automodule:: smartOBD.main
    :members:
 
-   
+Adding a New Car
+================
+
+.. automodule:: smartOBD.new_car
+   :members:
+Also creates new car and car_temp table for :func:`smartOBD.test_commands.fullQuery()` and :func:`smartOBD.asynco.getAsync()`
+
 Asynchronous Connections
 ========================
 

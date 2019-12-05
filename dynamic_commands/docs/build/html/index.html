@@ -60,6 +60,16 @@ Simple command line interface, with choices for asynchronous data and a full dat
 </dd></dl>
 
 </div>
+<div class="section" id="module-smartOBD.new_car">
+<span id="adding-a-new-car"></span><h1>Adding a New Car<a class="headerlink" href="#module-smartOBD.new_car" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="smartOBD.new_car.new_car">
+<code class="sig-prename descclassname">smartOBD.new_car.</code><code class="sig-name descname">new_car</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smartOBD.new_car.new_car" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates new car in database based on username. Collects make, model, model year for car and adds it to the cars table.</p>
+</dd></dl>
+
+<p>Also creates new car and car_temp table for <a class="reference internal" href="#smartOBD.test_commands.fullQuery" title="smartOBD.test_commands.fullQuery"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.test_commands.fullQuery()</span></code></a> and <a class="reference internal" href="#smartOBD.asynco.getAsync" title="smartOBD.asynco.getAsync"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.asynco.getAsync()</span></code></a></p>
+</div>
 <div class="section" id="module-smartOBD.asynco">
 <span id="asynchronous-connections"></span><h1>Asynchronous Connections<a class="headerlink" href="#module-smartOBD.asynco" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-asynco"></span><p>Reads data using async functions and writes to a single row of the database to be read by the website</p>
@@ -197,6 +207,7 @@ finally, writes to database
 <li><a class="reference internal" href="#">Welcome to smartOBD’s documentation!</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 <li><a class="reference internal" href="#module-smartOBD.main">Interface (Main function)</a></li>
+<li><a class="reference internal" href="#module-smartOBD.new_car">Adding a New Car</a></li>
 <li><a class="reference internal" href="#module-smartOBD.asynco">Asynchronous Connections</a></li>
 <li><a class="reference internal" href="#module-smartOBD.test_commands">Full Query</a></li>
 </ul>
