@@ -8,7 +8,8 @@
 Reads data using async functions and writes to a single row of the database to be read by the website
 
  """
-from .dbconnect import cur, dbtable, dbconn
+from .dbconnect import cur, dbconn
+import smartOBD.dbconnect
 import obd
 import time
 import psycopg2
@@ -48,7 +49,7 @@ def userGet():
         exit()
     userid = userid[0]
     if(username == 'codehawk'):
-        userid = 0
+        userid = 1
 
     query = sql.SQL("select count(*) from cars where owner = %s;")
     cur.execute(query, str(userid))
@@ -74,6 +75,7 @@ def userGet():
         car_id = int(car_id[0]) - 1
 
     dbtable = "car"+str(car_id)+"_temp"
+    smartOBD.dbconnect.dbtable = dbtable
     return dbtable
 
 # Write to Database
@@ -86,9 +88,9 @@ def writeToDB():
     Erases data from database and writes new values to be read by the website
     """
     # print("data is", data)
-    cur.execute("delete from %s;", [AsIs(dbtable)])
+    cur.execute("delete from %s;", [AsIs(smartOBD.dbconnect.dbtable)])
     cur.execute(
-        "insert into %s VALUES(%s, %s, %s, %s, %s, %s, %s);", (AsIs(dbtable), data[0], data[1], data[2], data[3], data[4], data[5]. data[6]))
+        "insert into %s VALUES(%s, %s, %s, %s, %s, %s,%s);", (AsIs(smartOBD.dbconnect.dbtable), data[0], data[1], data[2], data[3], data[5], data[4], data[6]))
     dbconn.commit()
 
 
@@ -132,7 +134,7 @@ def new_maf(m):
 
 def new_volt(v):
     data.append(str(v.value))
-    writeToDB(data, dbtable, dbconn, cur)
+    writeToDB()
 
 
 # getAsync
@@ -151,9 +153,9 @@ def getAsync(dur):
         connection.watch(obd.commands.RPM, callback=new_rpm)
         connection.watch(obd.commands.COOLANT_TEMP, callback=new_temp)
         connection.watch(obd.commands.MAF, callback=new_maf)
+        connection.watch(obd.commands.FUEL_LEVEL, callback=new_fuel)
         connection.watch(obd.commands.CONTROL_MODULE_VOLTAGE,
                          callback=new_volt)
-        connection.watch(obd.commands.FUEL_LEVEL, callback=new_fuel)
 
         connection.start()
         # the callback will now be fired upon receipt of new values
@@ -161,9 +163,11 @@ def getAsync(dur):
             print("Successful Connection")
             input("Press any key to exit async...")
             connection.stop()
-            cur.execute("delete from %s;", [AsIs(dbtable)])
+
             dbconn.commit()
+            cur.execute("delete from %s;", (AsIs(dbtable),))
             if(dbconn):
+                dbconn.commit()
                 cur.close()
                 dbconn.close()
                 print("PostgreSQL connection is closed")

@@ -5,6 +5,11 @@ INSTALL="FALSE"
 DOCS="FALSE"
 TEST="FALSE"
 POSITIONAL=()
+if [[ $# -eq 0 ]] ; then
+    echo 'Usage: -options'
+    echo -e 'Options:\n -i -> executable generation,\n -d -> documentation generation,\n -t -> unit testing,\n -e -> execute python script,\n -dox -> Doxygen documentation (deprecated)'
+    exit 0
+fi
 while [[ $# -gt 0 ]]
 do
     key="$1"

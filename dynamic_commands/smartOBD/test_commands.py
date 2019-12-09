@@ -54,7 +54,7 @@ def userGet(dbconn, cur):
         exit()
     userid = userid[0]
     if(username == 'codehawk'):
-        userid = 0
+        userid = 1
 
     query = sql.SQL("select count(*) from cars where owner = %s;")
     cur.execute(query, str(userid))
@@ -107,9 +107,9 @@ def fullQuery():
             command.append((key, test_dict[key]))
         # command = tuple(command)
         # print(command[0])
-        with tqdm(desc="Querying Car", total=82) as pbar:
+        with tqdm(desc="Querying Car", total=len(car.supported_commands)) as pbar:
             temp2 = command[0][1][1]
-            for i in range(3, 32):
+            for i in range(4, 32):
                 # print("Temp2 is", temp2[1][i])
                 # print("Type is", type(temp2[1][i]))
                 res = str((car.query(temp2[i])).value)
