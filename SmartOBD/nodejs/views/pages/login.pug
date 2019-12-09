@@ -11,16 +11,13 @@ head
         h4 Password
         input#pword.form-control(type='password', placeholder='Password' name='pword')
         br
-    button.btn.btn-primary(type='submit' id='log-in-button') Log In
+    button.btn.btn-primary.center(type='submit' id='log-in-button') Log In
   p or
   .create-account
-    button.button2(type='button')
+    button.button2.center(type='button')
       a(href='/new_user')  Create an account!
-  br
   br
   div(style='text-align:center')
     a.forgot-password(href='forgot_password.html') Forgot Password?
-footer
-  p CSCI 3308
-  p Software Development Methods &amp; Tools
-  p Final Project
+
+include footer.pug

@@ -21,6 +21,7 @@ const pug = require('pug'); // Add the 'pug' view engine
 //Create Database Connection
 const pgp = require('pg-promise')();
 //import sessions
+pgp.pg.types.setTypeParser(1114, str => str);
 var session = require('client-sessions');
 
 /**********************
@@ -36,23 +37,22 @@ var session = require('client-sessions');
 **********************/
 //session stuff
 app.use(session({
-  cookieName: 'session',
-  secret: 'sddasd5asdasd9',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
+    cookieName: 'session',
+    secret: 'sddasd5asdasd9',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
 }));
 
 //postgres stuff
 const dbConfig = {
-	host: 'localhost',
-	port: 5432,
-	database: 'car',
-	user: 'demo',
+    host: 'localhost',
+    port: 5432,
+    database: 'car',
+    user: 'demo',
     password: 'Sweden77'
 };
 
 let db = pgp(dbConfig);
-
 // set the view engine to ejs
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/')); // This line is necessary for us to use relative paths and access our resources directory
@@ -60,276 +60,364 @@ app.use(express.static(__dirname + '/')); // This line is necessary for us to us
 
 
 //before car is chosen, user may be logged in or out
-app.get('/home', function(req, res) {
-//if user is logged in show car list
-if(req.session.user){
-var car_data = 'SELECT * FROM cars WHERE owner = ' + req.session.user.id
-db.task('get-everything', task => {
-    return task.batch([
-        task.any(car_data)
-    ]);
-})
-.then(data => {
-  res.render('pages/home',{
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username,
-	  car_list: data[0]
-    })
-})
-.catch(error => {
-    //show error and render
-        console.log(error);
-        res.render('pages/home',{
-      my_title: "data error",
-      user_name: '',
-	  car_list: ''
-    })
-});
-}
-//if user is not logged in render empty info
-else{
-	res.render('pages/home',{
-      my_title: "SmartOBD Demo Data",
-      user_name: '',
-	  car_list: ''
-    })
-}
+app.get('/home', function (req, res) {
+    //if user is logged in show car list
+    if (req.session.user) {
+        var car_data = 'SELECT * FROM cars WHERE owner = ' + req.session.user.id
+        db.task('get-everything', task => {
+            return task.batch([
+                task.any(car_data)
+            ]);
+        })
+            .then(data => {
+                res.render('pages/home', {
+                    my_title: "SmartOBD Demo Data",
+                    car_name: "Choose Car:",
+                    user_name: req.session.user.username,
+                    car_list: data[0]
+                })
+            })
+            .catch(error => {
+                //show error and render
+                console.log(error);
+                res.render('pages/home', {
+                    my_title: "data error",
+                    car_name: "Choose Car:",
+                    user_name: '',
+                    car_list: ''
+                })
+            });
+    }
+    //if user is not logged in render empty info
+    else {
+        res.render('pages/home', {
+            my_title: "SmartOBD Demo Data",
+            car_name: "Choose Car:",
+            user_name: '',
+            car_list: ''
+        })
+    }
 });
 //home after car is chosen, user is logged in
-app.post('/home', function(req, res) {
-var num = req.body.car_choice
-var car_list = 'SELECT * FROM cars WHERE owner = ' + req.session.user.id
-var car_data = 'SELECT * FROM car' + num + ' ORDER BY time'
-if(req.session.user){
-	db.task('get-everything', task => {
-    return task.batch([
-        task.any(car_list),
-        task.any(car_data)
-    ]);
-})
-.then(data => {
-  res.render('pages/home',{
-	  
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username,
-	  car_list: data[0],
-	  car_data: data[1][0]
-	  
-    })
-})
-.catch(error => {
-    // display error message in case an error
-        console.log(error);
-        res.render('pages/home',{
-      my_title: "data error",
-      user_name: '',
-	  car_list: '',
-	  car_data: ''
+app.post('/home', function (req, res) {
+    var num = req.body.car_choice - 1
+    console.log(num);
+    var car_data = 'SELECT * FROM car' + num + ' ORDER BY time DESC';
+    if (req.session.user) {
+        db.task('get-everything', task => {
+            return task.batch([
+                task.any(car_data)
+            ]);
+        })
+            .then(data => {
+                console.log(data[0][0]);
+                res.render('pages/home', {
+                    my_title: "SmartOBD Demo Data",
+                    car_name: "Choose Car:",
+                    user_name: req.session.user.username,
+                    car_list: '',
+                    car_data: data[0][0],
+                    car_num: num
+                })
+            })
+            .catch(error => {
+                // display error message in case an error
+                console.log(error);
+                res.render('pages/home', {
+                    car_name: "Choose Car:",
+                    my_title: "data error",
+                    user_name: '',
+                    car_list: '',
+                    car_data: ''
+                })
+            });
+    }
+    else {
+        res.render('pages/home', {
+
+            my_title: "SmartOBD Demo Data",
+            car_name: "Choose Car:",
+            user_name: '',
+            car_list: '',
+            car_data: ''
+
+        })
+    }
+});
+app.get('/login', function (req, res) {
+    res.render('pages/login', {
+        my_title: "Login",
     })
 });
-}
-else{
-	  res.render('pages/home',{
-	  
-      my_title: "SmartOBD Demo Data",
-      user_name: '',
-	  car_list: '',
-	  car_data: ''
-	  
-    })
-}
-});
-app.get('/login', function(req, res) {
-	res.render('pages/login',{
-		my_title: "Login",
-    })
-});
-app.post('/login', function(req, res) {
+app.post('/login', function (req, res) {
     var inputname = req.body.uname;
-	var inputpass = req.body.pword;
-    user_validate = 'SELECT * FROM users where username = '+ "'"+inputname+"'";
+    var inputpass = req.body.pword;
+    user_validate = 'SELECT * FROM users where username = ' + "'" + inputname + "'";
     db.task('get-everything', task => {
         return task.batch([
             task.any(user_validate),
-    ]);
-})
-.then(data => {
-    if(data[0][0].username != inputname){
-		res.redirect('/login');
-		console.log('whoops');
-	}
-	else{
-		var cor = data[0][0].password;
-		if (req.body.pword === cor) {
-        // sets a cookie with the user's info
-        req.session.user = data[0][0];
-        res.redirect('/home');
-		}
-		else{
-			res.redirect('/login')
-		}
-  
-    }
-})    
-.catch(error => {
-        // display error message in case an error
+        ]);
+    })
+        .then(data => {
+            if (data[0][0].username != inputname) {
+                res.redirect('/login');
+                console.log('whoops');
+            }
+            else {
+                var cor = data[0][0].password;
+                if (req.body.pword === cor) {
+                    // sets a cookie with the user's info
+                    req.session.user = data[0][0];
+                    res.redirect('/home');
+                }
+                else {
+                    res.redirect('/login')
+                }
+
+            }
+        })
+        .catch(error => {
+            // display error message in case an error
             res.render('pages/login', {
                 title: 'Try login again',
             })
-    });
+        });
 
-  });
+});
 
-app.get('/new_user', function(req, res) {
-	res.render('pages/new_user',{
-		my_title: "New User",
+app.get('/new_user', function (req, res) {
+    res.render('pages/new_user', {
+        my_title: "New User",
     })
 });
 
-app.get('/logout', function(req, res) {
-  req.session.reset();
-  res.redirect('/home');
+app.get('/logout', function (req, res) {
+    req.session.reset();
+    res.redirect('/home');
 });
 
-app.post('/new_user', function(req, res) {
-  var first = req.body.fname;
-  var last = req.body.lname;
-  var email = req.body.email;
-  var pass = req.body.password;
-  var username = req.body.username_input;
-  var insert_statement = "INSERT INTO users(username,password,firstname,lastname,email) VALUES('" + username + "','" +
-              pass + "','" + first + "','"+ last +"','"+ email +"')";
-  db.task('get-everything', task => {
+app.post('/new_user', function (req, res) {
+    var first = req.body.fname;
+    var last = req.body.lname;
+    var email = req.body.email;
+    var pass = req.body.password;
+    var username = req.body.username_input;
+    var insert_statement = "INSERT INTO users(username,password,firstname,lastname,email) VALUES('" + username + "','" +
+        pass + "','" + first + "','" + last + "','" + email + "')";
+    db.task('get-everything', task => {
         return task.batch([
             task.any(insert_statement),
         ]);
     })
-    .then(
-      res.redirect('/login')
-    )
-    .catch(error => {
-        // display error message in case an error
+        .then(
+            res.redirect('/login')
+        )
+        .catch(error => {
+            // display error message in case an error
             res.render('pages/home', {
                 title: 'Home Page',
+                car_name: "Choose Car:",
                 data: '',
                 color: '',
                 color_msg: ''
             })
-    });
+        });
 });
 //before car or times are chosen, user may be logged in or out
-app.get('/full_log', function(req, res) {
+app.get('/full_log', function (req, res) {
+    if (req.session.user != undefined) {
+        var car_list = 'SELECT id , model FROM cars WHERE owner = ' + req.session.user.id;
+        db.task('get-everything', task => {
+            return task.batch([
+                task.any(car_list)
+            ]);
+        })
+            .then(data => {
+                res.render('pages/full_log', {
+                    my_title: "SmartOBD Demo Data",
+                    user_name: req.session.user.username,
+                    car_list: data[0],
+                    time_list: ''
+                })
+            })
+            .catch(error => {
+                //show error and render
+                console.log(error);
+                res.render('pages/home', {
+                    my_title: "data error",
+                    car_name: "Choose Car:",
+                    user_name: '',
+                    car_list: '',
+                    time_list: ''
+                })
+            });
+    }
+    //if user is not logged in render empty info
+    else {
+        res.render('pages/full_log', {
+            my_title: "SmartOBD Demo Data",
+            user_name: '',
+            car_list: ''
+        })
+    }
+});
+app.get('/full_log/got', function (req, res) {
+    var car_data = 'SELECT * FROM car' + (req.query.car_choice - 1) + ' WHERE time=' + '\'' + req.query.time_choice + '\'';
+    var car_list = 'SELECT id , model FROM cars WHERE owner = ' + req.session.user.id;
+    console.log(car_data);
 
-
-var car_list = 'SELECT * FROM cars WHERE owner = ' + req.session.user.id;
-var time_list = 'SELECT time FROM car'+ req.query.car_choice + ' WHERE owner = ' + req.session.user.id;
-console.log(time_list);
-db.task(t => {
-    return t.oneOrNone(car_list)
-        .then(cars => {
-            console.log(cars[0]);
-            if(typeof cars[0] !== 'undefined') {
-
-                return t.any(time_list);
-            }
-            return [];
+    db.task('get-everything', task => {
+        return task.batch([
+            task.any(car_data),
+            task.any(car_list)
+        ]);
+    })
+        .then(data => {
+            res.render('pages/full_log', {
+                my_title: "SmartOBD Demo Data",
+                user_name: req.session.user.username,
+                time_list: '',
+                car_list: '',
+                car_data: data[0][0],
+                car_list_2: data[1],
+                car_num: req.query.car_choice - 1
+            })
+        })
+        .catch(error => {
+            //show error and render
+            console.log(error);
+            res.render('pages/home', {
+                my_title: "data error",
+                car_name: "Choose Car:",
+                user_name: '',
+                car_list: ''
+            })
         });
-})
-    .then(events => {
-      res.render('pages/full_log',{
-	  
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username,
-	  car_list: cars[0],
-	  time_list: events[0]
-	  
-    })
-    })
-    .catch(error => {
-      if(events)
-      res.render('pages/full_log',{
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username,
-	  car_list: '',
-	  time_list: ''
-	  
-    })
-	console.log("haha");
-    });
 });
-app.get('/live', function(req, res) {
+app.get('/full_log/findTime', function (req, res) {
+    var choice = req.query.car_choice;
+    var array = JSON.parse(choice);
+    var time_list = 'SELECT DISTINCT time FROM car' + (array[1] - 1);
+    var car_list = 'SELECT * FROM cars WHERE id = ' + (array[1]);
+    db.task('get-everything', task => {
+        return task.batch([
+            task.any(time_list),
+            task.any(car_list)
+        ]);
+    })
+        .then(data => {
+            res.render('pages/full_log', {
+                my_title: "SmartOBD Demo Data",
+                user_name: req.session.user.username,
+                time_list: data[0],
+                car_data: data[1][0],
+                car_num: array[1] - 1
+            })
 
-var car_data = 'SELECT * FROM users;'
-db.task('get-everything', task => {
-    return task.batch([
-        task.any(car_data)
-    ]);
-})
-.then(data => {
-  res.render('pages/live',{
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username
-    })
-})
-.catch(error => {
-    // display error message in case an error
-        console.log(error);
-        res.render('pages/live',{
-      my_title: "data error",
-      user_name: ''
-    })
+        })
+        .catch(error => {
+            //show error and render
+            console.log(error);
+            res.render('pages/home', {
+                my_title: "data error",
+                car_name: "Choose Car:",
+                user_name: '',
+                car_list: ''
+            })
+        });
 });
-});
-
-
-app.get('/downloads', function(req, res) {
-
-var car_data = 'SELECT * FROM users;'
-db.task('get-everything', task => {
-    return task.batch([
-        task.any(car_data)
-    ]);
-})
-.then(data => {
-  res.render('pages/downloads',{
-      my_title: "downloads",
-      user_name: req.session.user.username
+app.get('/live', function (req, res) {
+    var car_data = 'SELECT * FROM car0_temp';
+    var test = "hello";
+    db.task('get-everything', task => {
+        return task.batch([
+            task.any(car_data)
+        ]);
     })
-})
-.catch(error => {
-    // display error message in case an error
-        console.log(error);
-        res.render('pages/downloads',{
-      my_title: "data error",
-      user_name: ''
-    })
-});
+        .then(data => {
+            console.log(data[0]);
+            res.render('pages/live', {
+                my_title: "SmartOBD Demo Data",
+                user_name: req.session.user.username,
+                car_data: data[0],
+                my_var: "hello"
+            })
+        })
+        .catch(error => {
+            // display error message in case an error
+            console.log(error);
+            res.render('pages/live', {
+                my_title: "data error",
+                user_name: ''
+            })
+        });
 });
 
+app.post('/live', function (req, res) {
+    var num = req.body.car_choice - 1;
+    console.log(num);
+    num = 0;
+    var car_data = 'SELECT * FROM car'+num+'_temp';
+    var test = "hello";
+    console.log("Hello");
+    if (req.session.user) {
+        db.task('get-everything', task => {
+            return task.batch([
+                task.any(car_data)
+            ]);
+        })
+            .then(data => {
+                console.log(data[0][0]);
+                res.render('pages/live', {
+                    my_title: "SmartOBD Demo Data",
+                    user_name: req.session.user.username,
+                    car_data: data[0][0],
+                    my_var: "hi"
+                })
+            })
+            .catch(error => {
+                // display error message in case an error
+                console.log(error);
+                res.render('pages/home', {
+                    car_name: "Choose Car:",
+                    my_title: "data error",
+                    user_name: '',
+                    car_list: '',
+                    car_data: ''
+                })
+            });
+    }
+});
 
 
-app.get('/export', function(req, res) {
+app.get('/downloads', function (req, res) {
 
-var car_data = 'SELECT * FROM users;'
-db.task('get-everything', task => {
-    return task.batch([
-        task.any(car_data)
-    ]);
-})
-.then(data => {
-  res.render('pages/export',{
-      my_title: "SmartOBD Demo Data",
-      user_name: req.session.user.username
-    })
-})
-.catch(error => {
-    // display error message in case an error
-        console.log(error);
-        res.render('pages/export',{
-      my_title: "data error",
-      user_name: ''
+    res.render('pages/downloads', {
+        my_title: "SmartOBD Demo Data"
     })
 });
+app.get('/export', function (req, res) {
+
+    var car_data = 'SELECT * FROM users;'
+    db.task('get-everything', task => {
+        return task.batch([
+            task.any(car_data)
+        ]);
+    })
+        .then(data => {
+            res.render('pages/export', {
+                my_title: "SmartOBD Demo Data",
+                user_name: req.session.user.username
+            })
+        })
+        .catch(error => {
+            // display error message in case an error
+            console.log(error);
+            res.render('pages/export', {
+                my_title: "data error",
+                user_name: ''
+            })
+        });
 });
 
 app.listen(3000);

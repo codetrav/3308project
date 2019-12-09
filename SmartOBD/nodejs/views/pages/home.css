@@ -5,6 +5,8 @@
 
  
 }
+.btn {
+}
 .container-50{
    font-size: 50%;
 }
@@ -43,6 +45,11 @@
   left:0;
 
 }
+.fixed3{
+  margin: 10 auto;
+  padding-right: 10px;
+  padding-left:10px;
+}
 
 .engine-temp{
 
@@ -60,6 +67,22 @@
 .battery{
 
 }
+.data-page{
+  margin-top: 800px;
+  position: fixed;
+}
+.form-group{
+  margin: auto;
+  width: 50%;
+  padding-bottom: 5px;
+}
+.black {
+  color: black;
+}
+.card {
+  margin: 7px 7px 7px 7px;
+}
+
 body{
   background-color: rgb(34,32,44);
 }
@@ -98,6 +121,7 @@ ul {
 
 li {
   float: left;
+  text-align: left;
 }
 
 li a {

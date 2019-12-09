@@ -1,0 +1,98 @@
+doctype html
+
+link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+    integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous')
+include header.pug
+style
+  home.css
+.body
+  h1 Car Overview
+  .container
+    .row
+      .col-sm
+        .card
+          .card-body
+            h1.black Choose Car:
+
+            if(car_list)
+              form(action="/home", method="post")
+                    select.custom-select(name="car_choice", onchange="this.form.submit()")
+                      option(selected) Select Car
+                      each variable in car_list
+                        option(value=variable.id) #{variable.model}
+            else if(user_name)
+              button#myButton.float-left.submit-button(onclick="location.href = 'http://198.23.146.166:3000/home';") See different car's Overview!
+            else 
+              p Please login or add car to choose car!
+    .row
+      .col-sm
+        .card
+          .card-body
+            h1.black Scanning Summary:
+            if(car_data)
+             input#coolant(type='hidden',value=car_data['Engine Coolant Temperature'])
+             ul.list-group
+               li.list-group-item  Last checked: #{car_data.time}
+               li.list-group-item  Distance travled since codes cleared:  #{car_data['Distance traveled since codes cleared']} Km
+               li.list-group-item  Number of warm-ups since codes cleared: #{car_data['Number of warm-ups since codes cleared']} Times
+            else if(!username)
+              p Please login or add car to see data!
+            else
+              p Choose a car from list above!
+    .row
+      .col-sm
+        .card
+          .card-body
+            h1.black Temperatures:
+            if(car_data)
+              ul.list-group
+                li.list-group-item  
+                    if car_data['Engine Coolant Temperature'] > 104
+                        img(src='/views/pages/img/thermometer/high.svg' height='40px' width='60px')
+                    else if car_data['Engine Coolant Temperature'] < 90
+                        img(src='/views/pages/img/thermometer/low.svg' height='40px' width='60px')
+                    else
+                        img(src='/views/pages/img/thermometer/medium.svg' height='40px' width='60px')
+
+                    blank Coolant Temp: #{car_data['Engine Coolant Temperature']} C
+                li.list-group-item  
+                    if car_data['Ambient Air Temperature'] > 80
+                        img(src='/views/pages/img/thermometer/high.svg' height='40px' width='60px')
+                    else if car_data['Ambient Air Temperature'] < 40
+                        img(src='/views/pages/img/thermometer/low.svg' height='40px' width='60px')
+                    else
+                        img(src='/views/pages/img/thermometer/medium.svg' height='40px' width='60px')
+
+                    blank Ambient Temp:  #{car_data['Ambient air temperature']} C	
+                li.list-group-item  
+                    img(src='/views/pages/img/thermometer/high.svg' height='40px' width='60px')
+                    blank Intake Air Temp:  #{car_data['Intake Air Temp']} C
+            else if(!username)
+              p Please login or add car to see data!
+            else
+              p Choose a car from list above!
+      .col-sm
+        .card
+          .card-body
+            h1.black Pressures:
+            if(car_data)
+              ul.list-group
+                li.list-group-item  
+                  if car_data['Intake Manifold Pressure'] > 80
+                    img(src='/views/pages/img/maf/high.svg' height='40px' width='60px')
+                  else if car_data['Intake Manifold Pressure'] < 40
+                    img(src='/views/pages/img/maf/low.svg' height='40px' width='60px')
+                  else
+                    img(src='/views/pages/img/maf/guage.svg' height='40px' width='60px')
+
+                  Intake Manifold Pressure: #{car_data['Intake Manifold Pressure']} kp
+                li.list-group-item  Evaporative system vapor pressure:  #{car_data['Evaporative system vapor pressure']} kp
+                li.list-group-item  Barometric Pressure:  #{car_data['Barometric Pressure']} kp
+            else if(!username)
+              p Please login or add car to see data!
+            else
+              p Choose a car from list above!
+include footer.pug
+script.
+  var cool = parseInt(document.getElementById(coolant),10);
+  console.log(cool);

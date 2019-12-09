@@ -4,30 +4,26 @@ link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/
     integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous')
 include header.pug
 .body
-  h1 Live data
-    table.table
-      thead
-        tr
-          th(scope='col') #
-          th(scope='col') top
-          th(scope='col') top
-          th(scope='col') top
-      tbody
-        tr
-          th(scope='row') 1
-          td ..
-          td ...
-          td ...
-        tr
-          th(scope='row') 2
-          td ...
-          td ...
-          td ...
-        tr
-          th(scope='row') 3
-          td ...
-          td ...
-          td ...
-
+  .container-50
+    .jumbotron
+      h1.display-4 Live data
+        table.table
+          thead
+            tr
+              th(scope='col') KMPH
+              th(scope='col') RPM
+              th(scope='col') Coolant Temp
+              th(scope='col') Fuel Level
+              th(scope='col') MAF
+              th(scope='col') Battery Voltage
+          tbody
+            tr
+              if (car_data[0])
+                td #{car_data[0]['SPEED KMPH']} KMPH
+                td #{car_data[0]['RPM']} rpm
+                td #{car_data[0]['Coolant Temp']} C
+                td #{car_data[0]['FUEL LEVEL']} %
+                td #{car_data[0]['MAF']}
+                td #{car_data[0]['voltage']} V
 
 include footer.pug

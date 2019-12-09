@@ -1,50 +1,50 @@
 doctype html
-
-link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+head
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
     integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous')
-include header.pug
+  include header.pug
 style
   include home.css
 
 .log
-  h1 2012 Honda Accord Full Log
+  h1 Full Logs
     .container-50
       .row
         .col-sm
           .card
-
-                  form(action="", method="get")
+            if(user_name)
+              if(car_list != '' && time_list == '')
+                  form(action="full_log/findTime", method="get")
                     select.custom-select(name="car_choice", onchange="this.form.submit()")
                       option(selected) Select Car
                       each variable in car_list
-                        option(value=variable.id) #{variable.model}
-
-                  form.form(action="", method="post")
-                    select.custom-select(name="time_choice", onchange="this.form.submit()")
-                      option(selected) Select Read Time
-                      each variable in time_list
-                        option(value=variable.time) #{variable.time}
-				
+                        option(value=[variable.model,variable.id]) #{variable.model}
+            
+              else if(timelist != '' && car_list != '' )
+                form(action="/full_log/got", method="get")
+                  select.custom-select(name="car_choice")
+                    option(value=car_data.id selected= true) #{car_data.model}
+                  select.custom-select(name="time_choice")
+                    option(selected) Select Read Time
+                    each variable in time_list
+                      option(value=variable.time) #{variable.time}
+                  input.black(type='submit' name='look' )  
+              else
+                button#myButton.black.float-left.submit-button(onclick="location.href = 'http://198.23.146.166:3000/full_log';") Another Search
       .row
         .col-sm
           table.table.table-striped
-            tbody
-              tr
-                th.text-left(scope='row') Mph
-                td ...
-                td ...
-              tr
-                th.text-left(scope='row') Fuel Level
-                td ...
-                td ...
-              tr
-                th.text-left(scope='row') Engine Status
-                td ...
-                td ...
-              tr
-                th.text-left(scope='row') Etc.
-                td ...
-                td ...
+            tr
+              if(car_data != undefined)
+                each variable,result in car_data
+                  if(variable != null)
+                    tr
+                      th= result
+                      th= variable
+                      
+
+
+                
 
 
 

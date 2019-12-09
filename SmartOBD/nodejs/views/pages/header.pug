@@ -1,6 +1,6 @@
 doctype html
 head
-  title Smart OBD
+  title Smart OBD 
   link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css", integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS", crossorigin="anonymous")
 
 style
@@ -9,21 +9,26 @@ style
   ul
     li
       a(href='/new_user') Sign Up
-    li
-      a(href='/login') Log In
+    if(user_name)
+      li
+        a(href='/logout') Log Out
+    else
+      li
+        a(href='/login') Log In  
 .fixed2
-  h3  Welcome!
-  ul
-    li
-      a(href='#') Car 1
-    li
-      a(href='#') Car 2
-    li
-      a(href='#') Car 3
+  
+  if(user_name)
+    h3 Welcome! #{user_name}
+  else
+    h3 Welcome New Visitor!
 .center
-  img.center(src='views/pages/img/logo.png' alt='logo' height='200px' width='400px')
-
-  img(src='/views/pages/img/example-image.png' alt='example-car')
+  img.center(src='/views/pages/img/logo.png' alt='logo' height='200px' width='400px')
+  if(car_num == 1)
+    img(src='/views/pages/img/miniCoop.png' alt='example-car' height='400px' width='600px')
+  else if(car_num == 2)
+    img(src='/views/pages/img/forester.png' alt='example-car' height='400px' width='800px')
+  else
+    img(src='/views/pages/img/example-image.png' alt='example-car')
   br
   br
   br

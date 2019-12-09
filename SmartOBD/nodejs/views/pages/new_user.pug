@@ -16,19 +16,16 @@ form(method='POST' action='/new_user')
             input#lname.form-control(type='text', placeholder='Last Name' ,name='lname' ,required="true")
           div.form-group
             h4 Email
-            input#email.form-control(type='email', placeholder='email', name='email',required="true")
+            input#email.form-control(type='email', placeholder='Email', name='email',required="true")
           div.form-group
             h4 Password
-            input#password.form-control(type='password' ,name='password',required="true")
+            input#password.form-control(type='password' ,name='password', placeholder = 'Password' ,required="true")
           div.form-group
             h4 Confirm Password
-            input#confirmPassword.form-control(type='password' ,name='confirmPassword',required="true")
+            input#confirmPassword.form-control(type='password' ,name='confirmPassword', placeholder = 'Confirm Password' ,required="true")
           div.form-group
             h4 Username
-            input#username_input.form-control(type='text',name='username_input',required="true")
-          button.btn.btn-primary(type='submit' id='sign-up-button') Sign up
+            input#username_input.form-control(type='text',name='username_input', placeholder = 'Username', required="true")
+          button.btn.btn-primary.center(type='submit' id='sign-up-button') Sign up
 
-footer.center
-  p(style='text-align: center;') CSCI 3308
-  p(style='text-align: center;') Software Development Methods &amp; Tools
-  p(style='text-align: center;') Final Project
+include footer.pug
