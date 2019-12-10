@@ -145,3 +145,8 @@ run.sh
 /dynamic_commands/requirements.txt
 
 .vscode
+node_modules
+
+.eslintrc.json
+package.json
+package-lock.json
