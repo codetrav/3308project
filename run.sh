@@ -44,6 +44,23 @@ do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+if [ $TEST = "TRUE" ]
+then   
+    cd dynamic_commands/tests
+    echo "Starting Testing"
+    (OUTPUT=$(pytest test.py -rak)
+    
+    if [ $? != 0 ]
+    then 
+        echo "$OUTPUT" > test.log
+        echo "Testing Failed. Output written to test.log"
+    else
+        echo "Success"
+    fi 
+    ) &
+    cd ..
+    cd ..
+fi
 
 if [ $DOC = "TRUE" ] 
 then
@@ -82,15 +99,13 @@ then
     cp dynamic_commands/docs/build/latex/smartOBD.pdf dynamic_commands/documentation.pdf
 fi
 
-if [ $TEST = "TRUE" ]
-then   
-    cd dynamic_commands/tests
-    pytest test.py -rak
-    cd ..
-    cd ..
-fi
-
 if [ $RSYNC = "TRUE" ]
 then
     rsync -avP --exclude '.*' codehawk@198.23.146.166:/home/codehawk/ SmartOBD/
 fi
+
+while true; do
+    echo "Waiting for all jobs to complete"
+    wait -n || exit 1          # if one of the background jobs failed, abort
+    [[ "$(jobs)" ]] && { echo "Done"; break; }   # exit this loop if no more jobs
+done

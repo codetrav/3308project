@@ -136,11 +136,11 @@ finally, writes to database</p>
 <p>After running all queries, final column generation and insertion</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># * length checking for all arrays</span>
 <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Results error&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results error&quot;</span><span class="p">)</span>
 <span class="c1"># *final loop for database access</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Parsing success&quot;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">),</span><span class="s2">&quot;=&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsing success&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">),</span><span class="s2">&quot;=&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
     <span class="c1"># * checking all columns for existence</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -154,15 +154,15 @@ finally, writes to database</p>
             <span class="n">data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
             <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;alter table </span><span class="si">%s</span><span class="s2"> add column </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2"> VARCHAR(2000)&quot;</span><span class="p">,</span>
                         <span class="p">(</span><span class="n">AsIs</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span> <span class="n">AsIs</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;TABLE ALTERED&quot;</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TABLE ALTERED&quot;</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
     <span class="c1"># * final insertion</span>
     <span class="n">dbconn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-    <span class="n">q1</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">SQL</span><span class="p">(</span><span class="s2">&quot;insert into {0} values ({1})&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="o">.</span><span class="n">Identifier</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">SQL</span><span class="p">(</span><span class="s2">&quot;insert into </span><span class="si">{0}</span><span class="s2"> values (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="o">.</span><span class="n">Identifier</span><span class="p">(</span><span class="n">dbtable</span><span class="p">),</span>
                                                         <span class="n">sql</span><span class="o">.</span><span class="n">SQL</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sql</span><span class="o">.</span><span class="n">Placeholder</span><span class="p">()</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)))</span>
     <span class="c1"># print(results)</span>
     <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
     <span class="n">dbconn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Successful Read&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Successful Read&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <span class="target" id="module-fullQuery"></span><p>Runs every compatible command to query as much data as possible from vehicle and writes to a new row in the database</p>
@@ -236,7 +236,7 @@ finally, writes to database</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Will Walker.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
     </div>
   </body>
 </html>
