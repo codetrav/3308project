@@ -21,6 +21,7 @@ from psycopg2 import sql
 import smartOBD
 from smartOBD import asynco
 from smartOBD import test_commands
+from smartOBD import new_car
 
 ##main function
 # 
@@ -34,7 +35,8 @@ def main():
     print("Choose your action:\n")
     print("(0) Async allows smartOBD to give you live data on your vehicle\n")
     print("(1) Full Read will store all the data from your car's computer\n")
-    choose_action = input("Async(0) or Full Read(1): ")
+    print("(2) Add New Car will add a new vehicle to your account\n")
+    choose_action = input("Async(0), Full Read(1), or Add New Car(2): ")
     # * make database connection
     # host=198.23.146.166  password=Sweden77
     ## asynchronous
@@ -53,6 +55,8 @@ def main():
     ## full query
     elif(choose_action == '1'):
         test_commands.fullQuery()
+    elif(choose_action == '2'):
+        new_car.new_car()
 ## constructor
 if __name__ == "__main__":
     main()
