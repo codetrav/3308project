@@ -85,7 +85,7 @@ fi
 if [ $TEST = "TRUE" ]
 then   
     cd dynamic_commands/tests
-    pytest test.py
+    pytest test.py -rak
     cd ..
     cd ..
 fi

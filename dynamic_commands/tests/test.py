@@ -25,6 +25,7 @@ class TestClass2():
         asynco.getAsync(10)
 
     def test_db_assert(self):
+        dbconnect.connect()
         assert type(dbconnect.dbconn) is psycopg2._ext.connection
         assert type(dbconnect.cur) is psycopg2._ext.cursor
 
@@ -83,6 +84,20 @@ class TestClass(unittest.TestCase):
         main.main()
         self.assertTrue(mock.called)
 
-
+class TestDatabase():
+    def test_ip(self):
+        dbconnect.ip = "1"
+        with pytest.raises(SystemExit):
+            dbconnect.connect()
+    
+    def test_dbname(self):
+        dbconnect.dbname = 'testing'
+        with pytest.raises(SystemExit):
+            dbconnect.connect()
+    
+    def test_user(self):
+        dbconnect.user = "a"
+        with pytest.raises(SystemExit):
+            dbconnect.connect()
 if __name__ == "__main__":
     unittest.main()
