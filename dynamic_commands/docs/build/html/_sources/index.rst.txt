@@ -13,14 +13,6 @@ smartOBD is a python module that uses ELM327 OBD-II adapters to write data about
    :caption: Contents:
 
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
 Interface (Main function)
 =========================
 
@@ -32,6 +24,7 @@ Adding a New Car
 
 .. automodule:: smartOBD.new_car
    :members:
+
 Also creates new car and car_temp table for :func:`smartOBD.test_commands.fullQuery()` and :func:`smartOBD.asynco.getAsync()` respectively.
 
 Asynchronous Connections
@@ -55,7 +48,9 @@ Parses through all OBDCommands as a dictionary, and queries the car with all com
 appends results to a data array,
 checks database for all columns and appends new ones,
 finally, writes to database
-.. code-block::
+
+.. code-block:: python
+
     # dictionary generation
     for key, i in test_dict.items():
         # print(key, test_dict[key])
@@ -71,7 +66,9 @@ finally, writes to database
 
 
 After running all queries, final column generation and insertion
-.. code-block::
+
+.. code-block:: python
+
     # * length checking for all arrays
     if(len(columns) != len(results)):
         print("Results error")

@@ -79,7 +79,7 @@ then
     make latexpdf
     cd ..
     cd ..
-    cp dynamic_commands/docs/build/latex/smartobd.pdf dynamic_commands/documentation.pdf
+    cp dynamic_commands/docs/build/latex/smartOBD.pdf dynamic_commands/documentation.pdf
 fi
 
 if [ $TEST = "TRUE" ]
