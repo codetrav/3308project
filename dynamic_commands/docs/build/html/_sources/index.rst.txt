@@ -5,7 +5,7 @@
 
 Welcome to smartOBD's documentation!
 ====================================
-smartOBD is a python module that uses ELM-347 OBD-II adapters to write data about a vehicle to a database, either in real-time using :mod:`asynco`, or in aggregate using :mod:`test_commands`.
+smartOBD is a python module that uses ELM327 OBD-II adapters to write data about a vehicle to a database, either in real-time using :mod:`asynco`, or in aggregate using :mod:`test_commands`.
 
 
 .. toctree::
@@ -32,7 +32,7 @@ Adding a New Car
 
 .. automodule:: smartOBD.new_car
    :members:
-Also creates new car and car_temp table for :func:`smartOBD.test_commands.fullQuery()` and :func:`smartOBD.asynco.getAsync()`
+Also creates new car and car_temp table for :func:`smartOBD.test_commands.fullQuery()` and :func:`smartOBD.asynco.getAsync()` respectively.
 
 Asynchronous Connections
 ========================

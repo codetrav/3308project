@@ -37,7 +37,7 @@
             
   <div class="section" id="welcome-to-smartobd-s-documentation">
 <h1>Welcome to smartOBD’s documentation!<a class="headerlink" href="#welcome-to-smartobd-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>smartOBD is a python module that uses ELM-347 OBD-II adapters to write data about a vehicle to a database, either in real-time using <a class="reference internal" href="#module-asynco" title="asynco: Asynchronous connection (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asynco</span></code></a>, or in aggregate using <code class="xref py py-mod docutils literal notranslate"><span class="pre">test_commands</span></code>.</p>
+<p>smartOBD is a python module that uses ELM327 OBD-II adapters to write data about a vehicle to a database, either in real-time using <a class="reference internal" href="#module-asynco" title="asynco: Asynchronous connection (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">asynco</span></code></a>, or in aggregate using <code class="xref py py-mod docutils literal notranslate"><span class="pre">test_commands</span></code>.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -68,7 +68,7 @@ Simple command line interface, with choices for asynchronous data and a full dat
 <dd><p>Creates new car in database based on username. Collects make, model, model year for car and adds it to the cars table.</p>
 </dd></dl>
 
-<p>Also creates new car and car_temp table for <a class="reference internal" href="#smartOBD.test_commands.fullQuery" title="smartOBD.test_commands.fullQuery"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.test_commands.fullQuery()</span></code></a> and <a class="reference internal" href="#smartOBD.asynco.getAsync" title="smartOBD.asynco.getAsync"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.asynco.getAsync()</span></code></a></p>
+<p>Also creates new car and car_temp table for <a class="reference internal" href="#smartOBD.test_commands.fullQuery" title="smartOBD.test_commands.fullQuery"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.test_commands.fullQuery()</span></code></a> and <a class="reference internal" href="#smartOBD.asynco.getAsync" title="smartOBD.asynco.getAsync"><code class="xref py py-func docutils literal notranslate"><span class="pre">smartOBD.asynco.getAsync()</span></code></a> respectively.</p>
 </div>
 <div class="section" id="module-smartOBD.asynco">
 <span id="asynchronous-connections"></span><h1>Asynchronous Connections<a class="headerlink" href="#module-smartOBD.asynco" title="Permalink to this headline">¶</a></h1>
