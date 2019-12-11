@@ -28,11 +28,11 @@ do
             INSTALL="TRUE"
             shift
         ;;
-        -d|-documentation)
+        -d|--documentation)
             DOCS="TRUE"
             shift
         ;;
-        -t|-test)
+        -t|--test)
             TEST="TRUE"
             shift
         ;;
