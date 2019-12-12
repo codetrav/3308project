@@ -10,7 +10,7 @@
 ***********************/
 
 const express = require('express'); // Add the express framework has been added
-let app = express();
+var app = express();
 
 const bodyParser = require('body-parser'); // Add the body-parser tool has been added
 app.use(bodyParser.json());              // Add support for JSON encoded bodies
@@ -44,21 +44,26 @@ app.use(session({
 }));
 
 //postgres stuff
-const dbConfig = {
-    host: 'localhost',
-    port: 5432,
-    database: 'car',
-    user: 'demo',
-    password: 'Sweden77'
-};
-
-let db = pgp(dbConfig);
+var dbConfig = process.env.DATABASE_URL;
+if(dbConfig == undefined){
+    dbConfig = {
+        host: 'localhost',
+        port: 5432,
+        database: 'car',
+        user: 'demo',
+        password: 'Sweden77'
+    };
+}
+var db = pgp(dbConfig);
 // set the view engine to ejs
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/')); // This line is necessary for us to use relative paths and access our resources directory
 //helper sql functions
 
-
+app.get('/', function (req, res) {
+    console.log("Booting into home");
+    res.redirect('/home');
+});
 //before car is chosen, user may be logged in or out
 app.get('/home', function (req, res) {
     //if user is logged in show car list
@@ -355,9 +360,9 @@ app.get('/live', function (req, res) {
 
 app.post('/live', function (req, res) {
     var num = req.body.car_choice - 1;
-    console.log(num);
+    console.log("car num is"+num);
     num = 0;
-    var car_data = 'SELECT * FROM car'+num+'_temp';
+    var car_data = 'SELECT * FROM car' + num + '_temp';
     var test = "hello";
     console.log("Hello");
     if (req.session.user) {
@@ -419,6 +424,8 @@ app.get('/export', function (req, res) {
             })
         });
 });
-
-app.listen(3000);
+app.get('/', function (req, res) {
+    res.redirect('/home');
+});
+app.listen(process.env.PORT || 3000)
 console.log('3000 is the magic port');
