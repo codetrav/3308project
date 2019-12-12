@@ -11,19 +11,24 @@
 
 const express = require('express'); // Add the express framework has been added
 var app = express();
-
+const util = require('util');
 const bodyParser = require('body-parser'); // Add the body-parser tool has been added
-app.use(bodyParser.json());              // Add support for JSON encoded bodies
+app.use(bodyParser.json({ type: 'application/json' }));              // Add support for JSON encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Add support for URL encoded bodies
-
-const pug = require('pug'); // Add the 'pug' view engine
+app.use(function (req, res, next) {
+    console.log(req.body)
+    next()
+})
 
 //Create Database Connection
 const pgp = require('pg-promise')();
 //import sessions
 pgp.pg.types.setTypeParser(1114, str => str);
 var session = require('client-sessions');
+const fetch = require('node-fetch');
 
+const adminSecret = process.env.ADMIN_SECRET;
+const hgeEndpoint = process.env.HGE_ENDPOINT;
 /**********************
   
   Database Connection information
@@ -45,7 +50,7 @@ app.use(session({
 
 //postgres stuff
 var dbConfig = process.env.DATABASE_URL;
-if(dbConfig == undefined){
+if (dbConfig == undefined) {
     dbConfig = {
         host: 'localhost',
         port: 5432,
@@ -59,7 +64,6 @@ var db = pgp(dbConfig);
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/')); // This line is necessary for us to use relative paths and access our resources directory
 //helper sql functions
-
 app.get('/', function (req, res) {
     console.log("Booting into home");
     res.redirect('/home');
@@ -156,7 +160,6 @@ app.get('/login', function (req, res) {
 });
 app.post('/login', function (req, res) {
     var inputname = req.body.uname;
-    var inputpass = req.body.pword;
     user_validate = 'SELECT * FROM users where username = ' + "'" + inputname + "'";
     db.task('get-everything', task => {
         return task.batch([
@@ -181,7 +184,7 @@ app.post('/login', function (req, res) {
 
             }
         })
-        .catch(error => {
+        .catch(() => {
             // display error message in case an error
             res.render('pages/login', {
                 title: 'Try login again',
@@ -217,7 +220,7 @@ app.post('/new_user', function (req, res) {
         .then(
             res.redirect('/login')
         )
-        .catch(error => {
+        .catch(() => {
             // display error message in case an error
             res.render('pages/home', {
                 title: 'Home Page',
@@ -269,7 +272,6 @@ app.get('/full_log', function (req, res) {
 app.get('/full_log/got', function (req, res) {
     var car_data = 'SELECT * FROM car' + (req.query.car_choice - 1) + ' WHERE time=' + '\'' + req.query.time_choice + '\'';
     var car_list = 'SELECT id , model FROM cars WHERE owner = ' + req.session.user.id;
-    console.log(car_data);
 
     db.task('get-everything', task => {
         return task.batch([
@@ -278,12 +280,14 @@ app.get('/full_log/got', function (req, res) {
         ]);
     })
         .then(data => {
+            console.log("Car Data " + util.inspect(car_data,{depth: null}));
+            
             res.render('pages/full_log', {
                 my_title: "SmartOBD Demo Data",
                 user_name: req.session.user.username,
                 time_list: '',
                 car_list: '',
-                car_data: data[0][0],
+                car_data: data[1][0],
                 car_list_2: data[1],
                 car_num: req.query.car_choice - 1
             })
@@ -333,7 +337,6 @@ app.get('/full_log/findTime', function (req, res) {
 });
 app.get('/live', function (req, res) {
     var car_data = 'SELECT * FROM car0_temp';
-    var test = "hello";
     db.task('get-everything', task => {
         return task.batch([
             task.any(car_data)
@@ -359,13 +362,20 @@ app.get('/live', function (req, res) {
 });
 
 app.post('/live', function (req, res) {
-    var num = req.body.car_choice - 1;
-    console.log("car num is"+num);
-    num = 0;
-    var car_data = 'SELECT * FROM car' + num + '_temp';
-    var test = "hello";
-    console.log("Hello");
+
     if (req.session.user) {
+        var num = req.body.car_choice - 1;
+        var values = req.body.event.data.new
+        console.log("Req.body is " + req.body);
+        console.log(values.MAF)
+        if (!num) {
+            num = 1;
+            console.log("NaN number, resetting to default")
+        }
+        console.log("car num is " + num);
+        num = 0;
+        var car_data = 'SELECT * FROM car' + num + '_temp';
+        console.log("Hello");
         db.task('get-everything', task => {
             return task.batch([
                 task.any(car_data)
@@ -394,7 +404,6 @@ app.post('/live', function (req, res) {
     }
 });
 
-
 app.get('/downloads', function (req, res) {
 
     res.render('pages/downloads', {
@@ -409,7 +418,7 @@ app.get('/export', function (req, res) {
             task.any(car_data)
         ]);
     })
-        .then(data => {
+        .then(() => {
             res.render('pages/export', {
                 my_title: "SmartOBD Demo Data",
                 user_name: req.session.user.username
@@ -423,6 +432,13 @@ app.get('/export', function (req, res) {
                 user_name: ''
             })
         });
+});
+app.get('/:file(*)', function (req, res) {
+    var file = req.params.file
+        , path = __dirname + '/views/pages/downloads/' + file;
+
+    res.download(path);
+    res.redirect('/downloads')
 });
 app.get('/', function (req, res) {
     res.redirect('/home');
