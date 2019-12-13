@@ -18,12 +18,9 @@ include header.pug
               th(scope='col') Battery Voltage
           tbody
             tr
-              if (car_data[0])
-                td #{car_data[0]['SPEED KMPH']} KMPH
-                td #{car_data[0]['RPM']} rpm
-                td #{car_data[0]['Coolant Temp']} C
-                td #{car_data[0]['FUEL LEVEL']} %
-                td #{car_data[0]['MAF']}
-                td #{car_data[0]['voltage']} V
+              if (car_data)
+                - console.log("The brackets and quotes "+car_data["RPM"])
+                each a in car_data
+                  td= a
 
 include footer.pug

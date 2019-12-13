@@ -24,6 +24,7 @@ app.use(function (req, res, next) {
 const pgp = require('pg-promise')();
 //import sessions
 pgp.pg.types.setTypeParser(1114, str => str);
+
 var session = require('client-sessions');
 const fetch = require('node-fetch');
 
@@ -272,7 +273,7 @@ app.get('/full_log', function (req, res) {
 app.get('/full_log/got', function (req, res) {
     var car_data = 'SELECT * FROM car' + (req.query.car_choice - 1) + ' WHERE time=' + '\'' + req.query.time_choice + '\'';
     var car_list = 'SELECT id , model FROM cars WHERE owner = ' + req.session.user.id;
-
+    console.log(req.query.time_choice);
     db.task('get-everything', task => {
         return task.batch([
             task.any(car_data),
@@ -280,14 +281,14 @@ app.get('/full_log/got', function (req, res) {
         ]);
     })
         .then(data => {
-            console.log("Car Data " + util.inspect(car_data,{depth: null}));
-            
+            console.log("Car Data " + util.inspect(data, { depth: null }));
+
             res.render('pages/full_log', {
                 my_title: "SmartOBD Demo Data",
                 user_name: req.session.user.username,
                 time_list: '',
                 car_list: '',
-                car_data: data[1][0],
+                car_data: data[0][0],
                 car_list_2: data[1],
                 car_num: req.query.car_choice - 1
             })
@@ -315,6 +316,7 @@ app.get('/full_log/findTime', function (req, res) {
         ]);
     })
         .then(data => {
+            console.log(util.inspect(data[0]));
             res.render('pages/full_log', {
                 my_title: "SmartOBD Demo Data",
                 user_name: req.session.user.username,
@@ -343,7 +345,6 @@ app.get('/live', function (req, res) {
         ]);
     })
         .then(data => {
-            console.log(data[0]);
             res.render('pages/live', {
                 my_title: "SmartOBD Demo Data",
                 user_name: req.session.user.username,
@@ -360,48 +361,16 @@ app.get('/live', function (req, res) {
             })
         });
 });
-
+function renderUserPage(values, res) {
+    res.render('pages/live', {
+        title: "SmartOBD Demo Data",
+        car_data: values
+    });
+};
 app.post('/live', function (req, res) {
-
-    if (req.session.user) {
-        var num = req.body.car_choice - 1;
-        var values = req.body.event.data.new
-        console.log("Req.body is " + req.body);
-        console.log(values.MAF)
-        if (!num) {
-            num = 1;
-            console.log("NaN number, resetting to default")
-        }
-        console.log("car num is " + num);
-        num = 0;
-        var car_data = 'SELECT * FROM car' + num + '_temp';
-        console.log("Hello");
-        db.task('get-everything', task => {
-            return task.batch([
-                task.any(car_data)
-            ]);
-        })
-            .then(data => {
-                console.log(data[0][0]);
-                res.render('pages/live', {
-                    my_title: "SmartOBD Demo Data",
-                    user_name: req.session.user.username,
-                    car_data: data[0][0],
-                    my_var: "hi"
-                })
-            })
-            .catch(error => {
-                // display error message in case an error
-                console.log(error);
-                res.render('pages/home', {
-                    car_name: "Choose Car:",
-                    my_title: "data error",
-                    user_name: '',
-                    car_list: '',
-                    car_data: ''
-                })
-            });
-    }
+    var values = req.body.event.data.new
+    res.statusCode = 202;
+    renderUserPage(values, res);
 });
 
 app.get('/downloads', function (req, res) {
