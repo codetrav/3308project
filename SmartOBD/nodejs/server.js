@@ -69,6 +69,19 @@ app.get('/', function (req, res) {
     console.log("Booting into home");
     res.redirect('/home');
 });
+
+
+const WebSocket = require('ws')
+
+const wss = new WebSocket.Server({ port: 8080 })
+
+wss.on('connection', ws => {
+    ws.on('message', message => {
+        console.log(`Received message => ${message}`)
+    })
+    ws.send('ho!')
+})
+
 //before car is chosen, user may be logged in or out
 app.get('/home', function (req, res) {
     //if user is logged in show car list
@@ -337,29 +350,25 @@ app.get('/full_log/findTime', function (req, res) {
             })
         });
 });
-function renderUserPage(values, res,req) {
-    res.render('pages/live', {
+var values = null;
+async function renderUserPage(vals, res, req) {
+    console.log("Array Indexing " + util.inspect(vals))
+    if (vals == null) {
+        vals = { time: "", 'SPEED KMPH': '', 'FUEL LEVEL': '', RPM: '', MAF: '', voltage: '', 'Coolant Temp': '' }
+    }
+    return res.render('pages/live', {
         title: "SmartOBD Demo Data",
-        car_data: values
+        car_data: vals
     });
 };
 app.get('/live', function (req, res) {
-    var values = null
-    renderUserPage(values,res,req)
-        // .catch(error => {
-        //     // display error message in case an error
-        //     console.log(error);
-        //     res.render('pages/live', {
-        //         my_title: "data error",
-        //         user_name: ''
-        //     })
-        // })
+    renderUserPage(values, res, req);
 });
 
 app.post('/live', function (req, res) {
-    var values = req.body.event.data.new
+    values = req.body.event.data.new;
     res.statusCode = 202;
-    renderUserPage(values, res,req);
+    renderUserPage(values, res, req);
 });
 
 app.get('/downloads', function (req, res) {
