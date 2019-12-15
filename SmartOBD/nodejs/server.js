@@ -337,40 +337,29 @@ app.get('/full_log/findTime', function (req, res) {
             })
         });
 });
-app.get('/live', function (req, res) {
-    var car_data = 'SELECT * FROM car0_temp';
-    db.task('get-everything', task => {
-        return task.batch([
-            task.any(car_data)
-        ]);
-    })
-        .then(data => {
-            res.render('pages/live', {
-                my_title: "SmartOBD Demo Data",
-                user_name: req.session.user.username,
-                car_data: data[0],
-                my_var: "hello"
-            })
-        })
-        .catch(error => {
-            // display error message in case an error
-            console.log(error);
-            res.render('pages/live', {
-                my_title: "data error",
-                user_name: ''
-            })
-        });
-});
-function renderUserPage(values, res) {
+function renderUserPage(values, res,req) {
     res.render('pages/live', {
         title: "SmartOBD Demo Data",
         car_data: values
     });
 };
+app.get('/live', function (req, res) {
+    var values = null
+    renderUserPage(values,res,req)
+        // .catch(error => {
+        //     // display error message in case an error
+        //     console.log(error);
+        //     res.render('pages/live', {
+        //         my_title: "data error",
+        //         user_name: ''
+        //     })
+        // })
+});
+
 app.post('/live', function (req, res) {
     var values = req.body.event.data.new
     res.statusCode = 202;
-    renderUserPage(values, res);
+    renderUserPage(values, res,req);
 });
 
 app.get('/downloads', function (req, res) {

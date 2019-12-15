@@ -20,7 +20,16 @@ include header.pug
             tr
               if (car_data)
                 - console.log("The brackets and quotes "+car_data["RPM"])
-                each a in car_data
-                  td= a
+                - console.log("Array Indexing "+util.inspect(car_data))
+                td= car_data["SPEED KMPH"]
+                td= car_data["RPM"]
+                td= car_data["Coolant Temp"]
+                td= car_data["Fuel Level"]
+                td= car_data["MAF"]
+                td= car_data["voltage"]
+                td Testing
+              else
+                td= Empty
+                
 
 include footer.pug
