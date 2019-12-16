@@ -16,7 +16,7 @@ const bodyParser = require('body-parser'); // Add the body-parser tool has been 
 app.use(bodyParser.json({ type: 'application/json' }));              // Add support for JSON encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Add support for URL encoded bodies
 app.use(function (req, res, next) {
-    console.log(req.body)
+    console.log("Request Body " + util.inspect(req.body))
     next()
 })
 
@@ -64,23 +64,36 @@ var db = pgp(dbConfig);
 // set the view engine to ejs
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/')); // This line is necessary for us to use relative paths and access our resources directory
+app.listen(process.env.PORT || 3000)
+console.log('3000 is the magic port');
 //helper sql functions
 app.get('/', function (req, res) {
     console.log("Booting into home");
     res.redirect('/home');
 });
+var port = process.env.PORT
+console.log(port)
+var { Server } = require('ws');
+// var http = require('http');
 
+// var server = http.createServer(function (request, response) {
+//     // process HTTP request. Since we're writing just WebSockets
+//     // server we don't have to implement anything.
+// });
+// server.listen(port, function () { });
 
-const WebSocket = require('ws')
-
-const wss = new WebSocket.Server({ port: 8080 })
-
-wss.on('connection', ws => {
+// create the server
+wsServer = new Server({
+    server: app
+});
+// WebSocket server
+wsServer.on('connection', ws => {
+    console.log("Connected")
     ws.on('message', message => {
         console.log(`Received message => ${message}`)
     })
     ws.send('ho!')
-})
+});
 
 //before car is chosen, user may be logged in or out
 app.get('/home', function (req, res) {
@@ -358,7 +371,8 @@ async function renderUserPage(vals, res, req) {
     }
     return res.render('pages/live', {
         title: "SmartOBD Demo Data",
-        car_data: vals
+        car_data: vals,
+        port: port
     });
 };
 app.get('/live', function (req, res) {
@@ -368,6 +382,7 @@ app.get('/live', function (req, res) {
 app.post('/live', function (req, res) {
     values = req.body.event.data.new;
     res.statusCode = 202;
+    wsServer.send(values);
     renderUserPage(values, res, req);
 });
 
@@ -410,5 +425,4 @@ app.get('/:file(*)', function (req, res) {
 app.get('/', function (req, res) {
     res.redirect('/home');
 });
-app.listen(process.env.PORT || 3000)
-console.log('3000 is the magic port');
+
