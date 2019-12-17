@@ -6,18 +6,18 @@ include header.pug
 .body
   script
     include scripts/ws.js
-  .container-50
+  .container
     .jumbotron
       h1.display-4 Live data
         table.table#display
           thead
             tr
               th(scope='col') KMPH
-              th(scope='col') RPM
-              th(scope='col') Coolant Temp
               th(scope='col') Fuel Level
+              th(scope='col') RPM
               th(scope='col') MAF
               th(scope='col') Battery Voltage
+              th(scope='col') Coolant Temp
           tbody          
             tr
               
