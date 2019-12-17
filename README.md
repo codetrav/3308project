@@ -18,7 +18,6 @@ Open up the [user interface](<https://smart-obd.herokuapp.com/>), create an acco
 
 Github Organization/Structure:
 ===
-Not sure how much in depth we need to go
 
 ## Development files
 
