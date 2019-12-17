@@ -86,18 +86,8 @@ class TestClass(unittest.TestCase):
 
 class TestDatabase():
     def test_ip(self):
-        dbconnect.ip = "1"
-        with pytest.raises(SystemExit):
-            dbconnect.connect()
-    
-    def test_dbname(self):
-        dbconnect.dbname = 'testing'
-        with pytest.raises(SystemExit):
-            dbconnect.connect()
-    
-    def test_user(self):
-        dbconnect.user = "a"
-        with pytest.raises(SystemExit):
+        dbconnect.DATABASE_URL = "1"
+        with pytest.raises(psycopg2.ProgrammingError):
             dbconnect.connect()
 if __name__ == "__main__":
     unittest.main()

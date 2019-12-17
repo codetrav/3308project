@@ -81,6 +81,7 @@ then
     pyinstaller --distpath ./executable/dist/ --workpath ./executable/build/ -F --specpath ./executable/ -n smartOBD main.py 
     cd ..
     cp dynamic_commands/executable/dist/smartOBD dynamic_commands/smartOBDexecutable
+    cp dynamic_commands/smartOBDexecutable SmartOBD/nodejs/views/pages/downloads/smartOBDexecutable
 fi
 
 
@@ -97,11 +98,6 @@ then
     cd ..
     cd ..
     cp dynamic_commands/docs/build/latex/smartOBD.pdf dynamic_commands/documentation.pdf
-fi
-
-if [ $RSYNC = "TRUE" ]
-then
-    rsync -avP --exclude '.*' codehawk@198.23.146.166:/home/codehawk/ SmartOBD/
 fi
 
 while true; do
