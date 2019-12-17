@@ -14,7 +14,15 @@ How to Run
 ==========
 Take your SmartOBD and USB-to-OBD-II adapter, and plug the USB into your computer and the OBD-II adapter into your car's OBD port (it's usually located under the dashboard, beneath the steering wheel).
 
-Open up the [user interface](<https://smart-obd.herokuapp.com/>), create an account, add a vehicle
+Open up the [user interface](<https://smart-obd.herokuapp.com/>) and create an account.
+
+Then download our app and run it on your laptop plugged into the SmartOBD, and choose which function you'd like to do
+1. Full Query
+Runs all available commands on the car, and writes them to a database that can be accessed in Full Log Data
+2. Async
+Displays up to six values from your car to our website live, to display those values while the car is running in realtime.
+3. Add new vehicle
+This will add a new vehicle to your user, make sure to do this first before running anything else.
 
 Github Organization/Structure:
 ===
