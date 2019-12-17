@@ -7,7 +7,6 @@ const inspect = obj => {
 }
 function $(x) { return document.getElementById(x); }
 var HOST = location.origin.replace(/^http/, 'ws');
-//- HOST += ':' + port
 console.log(HOST);
 
 
@@ -18,7 +17,6 @@ socket.onopen = function (e) {
     socket.send("Hi");
 };
 function updateTable(tableId, data) {
-    //$('#' + tableId).empty(); //not really necessary
     var columnNames = [];
     Object.keys(data).forEach(function (key) {
         columnNames.push(data[key])
@@ -35,11 +33,6 @@ function updateTable(tableId, data) {
         cell.innerHTML = columnNames[i];
         console.log(columnNames[i])
     }
-    // columnNames.forEach(function (columnName) {
-    //     var cell = row.insertCell(-1);
-    //     cell.innerHTML = columnNames[columnName];
-    //     console.log(columnNames[columnName])
-    // });
 }
 socket.onmessage = function (event) {
     console.log(typeof event.data);
@@ -63,7 +56,6 @@ socket.onclose = function (event) {
 };
 
 socket.onerror = function (error) {
-    //- console.log(`[error] ${error}`);
     inspect(error);
 };
 
