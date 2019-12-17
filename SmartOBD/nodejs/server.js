@@ -372,16 +372,6 @@ async function renderUserPage(vals, res, req) {
 };
 app.get('/live', function (req, res) {
     renderUserPage(null, res, req);
-    request.post('https://wiwa-hasura.herokuapp.com/v1/graphql', {
-
-    }, (error, res, body) => {
-        if (error) {
-            console.error(error)
-            return
-        }
-        console.log(`statusCode: ${res.statusCode}`)
-        console.log(body)
-    })
 });
 
 app.post('/live', function (req, res) {
@@ -398,6 +388,12 @@ app.get('/downloads', function (req, res) {
     res.render('pages/downloads', {
         my_title: "SmartOBD Demo Data"
     })
+});
+app.get('/downloads/smartOBDexecutable', function (req, res) {
+    const file = __dirname + '/views/pages/downloads/smartOBDexecutable';
+    console.log(file);
+    res.download(file);
+    res.redirect('/downloads');
 });
 app.get('/export', function (req, res) {
 

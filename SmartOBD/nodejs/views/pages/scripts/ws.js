@@ -23,16 +23,25 @@ function updateTable(tableId, data) {
     });
     console.log(columnNames);
     table = $(tableId);
-    table.deleteRow(1);
+    console.log(table.rows.length)
+    // if (table.rows.length > 3) {
+    //     for (var i = 0; i < columnNames.length; i++) {
+    //         table.deleteRow(i);
+    //     }
+    // }
+    // else {
+    //     table.deleteRow(1);
+    // }
     var count = Object.keys(data).length;
     data = Object.keys(data);
     console.log(count);
-    row = table.insertRow(-1);
-    for (var i = 1; i < columnNames.length; i++) {
-        var cell = row.insertCell(-1);
-        cell.innerHTML = columnNames[i];
-        console.log(columnNames[i])
+    for (var i = 0; i < columnNames.length; i++) {
+        row = table.rows[i]
+        var cell = row.cells[0];
+        cell.innerHTML = columnNames[i+1];
+        console.log(columnNames[i+1])
     }
+
 }
 socket.onmessage = function (event) {
     console.log(typeof event.data);
