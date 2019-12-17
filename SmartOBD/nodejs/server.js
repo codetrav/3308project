@@ -17,6 +17,7 @@ app.use(bodyParser.json({ type: 'application/json' }));              // Add supp
 app.use(bodyParser.urlencoded({ extended: true })); // Add support for URL encoded bodies
 app.use(function (req, res, next) {
     console.log("Request Body " + util.inspect(req.body))
+    // console.log("Response Body "+ util.inspect(res))
     next()
 })
 
@@ -64,7 +65,7 @@ var db = pgp(dbConfig);
 // set the view engine to ejs
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/')); // This line is necessary for us to use relative paths and access our resources directory
-app.listen(process.env.PORT || 3000)
+// app.listen(process.env.PORT || 3000)
 console.log('3000 is the magic port');
 //helper sql functions
 app.get('/', function (req, res) {
@@ -73,26 +74,33 @@ app.get('/', function (req, res) {
 });
 var port = process.env.PORT
 console.log(port)
-var { Server } = require('ws');
+var WebSocketServer = require("ws").Server
 // var http = require('http');
+const request = require('request')
 
 // var server = http.createServer(function (request, response) {
 //     // process HTTP request. Since we're writing just WebSockets
 //     // server we don't have to implement anything.
 // });
 // server.listen(port, function () { });
+var http = require('http');
+var server = http.createServer(app)
+server.listen(port)
 
+console.log("http server listening on %d", port)
+
+var wsServer = new WebSocketServer({ server: server })
+console.log("websocket server created")
 // create the server
-wsServer = new Server({
-    server: app
-});
+// const wsServer = new Server({
+//     server: app
+// });
 // WebSocket server
 wsServer.on('connection', ws => {
     console.log("Connected")
     ws.on('message', message => {
         console.log(`Received message => ${message}`)
     })
-    ws.send('ho!')
 });
 
 //before car is chosen, user may be logged in or out
@@ -363,7 +371,6 @@ app.get('/full_log/findTime', function (req, res) {
             })
         });
 });
-var values = null;
 async function renderUserPage(vals, res, req) {
     console.log("Array Indexing " + util.inspect(vals))
     if (vals == null) {
@@ -371,18 +378,29 @@ async function renderUserPage(vals, res, req) {
     }
     return res.render('pages/live', {
         title: "SmartOBD Demo Data",
-        car_data: vals,
         port: port
     });
 };
 app.get('/live', function (req, res) {
-    renderUserPage(values, res, req);
+    renderUserPage(null, res, req);
+    request.post('https://wiwa-hasura.herokuapp.com/v1/graphql', {
+
+    }, (error, res, body) => {
+        if (error) {
+            console.error(error)
+            return
+        }
+        console.log(`statusCode: ${res.statusCode}`)
+        console.log(body)
+    })
 });
 
 app.post('/live', function (req, res) {
     values = req.body.event.data.new;
     res.statusCode = 202;
-    wsServer.send(values);
+    wsServer.clients.forEach((client) => {
+        client.send(JSON.stringify(values));
+    });
     renderUserPage(values, res, req);
 });
 
